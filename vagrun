@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+if (PHP_VERSION_ID < 50400) {
+    file_put_contents('php://stderr', sprintf(
+        "Vagrun requires PHP 5.4 version or higher and your system has\n".
+        "PHP %s version installed.\n\n",
+        PHP_VERSION
+    ));
+
+    exit(1);
+}
+
+require file_exists(__DIR__.'/vendor/autoload.php')
+    ? __DIR__.'/vendor/autoload.php'
+    : __DIR__.'/../../autoload.php';
+
+$appVersion = '0.0.1';
+
+// Windows uses Path instead of PATH
+if (!isset($_SERVER['PATH']) && isset($_SERVER['Path'])) {
+    $_SERVER['PATH'] = $_SERVER['Path'];
+}
+
+$app = new Symfony\Component\Console\Application('Vagrun', $appVersion);
+$app->run();
