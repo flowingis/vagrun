@@ -1,0 +1,34 @@
+{
+  "name": "ideatosrl/vagrun",
+  "description": "The official installer to create Vagrant projects based on the vagrant-php-template",
+  "keywords": ["vagrant", "installer", "php"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ideato srl",
+      "homepage": "http://ideato.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "Ideato\\": "src/Ideato/" }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "guzzlehttp/guzzle": "~4.0",
+    "guzzlehttp/progress-subscriber": "~1.1",
+    "symfony/console": "~2.5",
+    "symfony/filesystem": "~2.5",
+    "raulfraile/distill": "~0.9,!=0.9.3,!=0.9.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.6"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  },
+  "bin": [
+    "vagrun"
+  ]
+}
