@@ -23,4 +23,6 @@ if (!isset($_SERVER['PATH']) && isset($_SERVER['Path'])) {
 }
 
 $app = new Symfony\Component\Console\Application('Vagrun', $appVersion);
+$app->add(new Ideato\Vagrun\InitCommand());
+
 $app->run();
