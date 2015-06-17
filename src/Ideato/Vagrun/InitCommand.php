@@ -46,7 +46,9 @@ class InitCommand extends Command
     {
         $this
             ->checkVagrunIsInstallable()
-            ->download();
+            ->download()
+            ->extract()
+        ;
     }
 
     protected function checkVagrunIsInstallable()
@@ -126,10 +128,9 @@ class InitCommand extends Command
     {
         $this->output->writeln(" Preparing project...\n");
 
-
         try {
             $distill = new Distill();
-            $extractionSucceeded = $distill->extractWithoutRootDirectory($this->downloadedFilePath, getcwd());
+            $extractionSucceeded = $distill->extract($this->downloadedFilePath, getcwd());
         } catch (FileCorruptedException $e) {
             throw new \RuntimeException(sprintf(
                 "Vagrun can't be installed because the downloaded package is corrupted.\n".
