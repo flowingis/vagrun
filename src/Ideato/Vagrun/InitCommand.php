@@ -238,6 +238,8 @@ class InitCommand extends Command
      */
     protected function cleanUp()
     {
+        $this->output->writeln(" Cleaning up the project...\n");
+
         $this->fs->remove(dirname($this->downloadedFilePath));
 
         try {
@@ -253,6 +255,8 @@ class InitCommand extends Command
 
             $fileToRename = $this->currentDir . DIRECTORY_SEPARATOR . 'vagrant' . DIRECTORY_SEPARATOR;
             $this->fs->rename($fileToRename . 'vagrantconfig.dist.yml', $fileToRename . 'vagrantconfig.yml');
+
+            $this->output->writeln(" <info>Project successfully initialized</info>\n");
         } catch (\Exception $e) {
             // don't throw an exception in case any of the files cannot
             // be removed, because this is just an enhancement, not something mandatory
