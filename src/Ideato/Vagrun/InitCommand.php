@@ -2,7 +2,6 @@
 
 namespace Ideato\Vagrun;
 
-
 use Distill\Distill;
 use Distill\Exception\IO\Input\FileCorruptedException;
 use Distill\Exception\IO\Input\FileEmptyException;
@@ -251,6 +250,9 @@ class InitCommand extends Command
                 $this->currentDir . 'vagrant/Vagrantfile',
             );
             $this->fs->remove($filesToRemove);
+
+            $fileToRename = $this->currentDir . DIRECTORY_SEPARATOR . 'vagrant' . DIRECTORY_SEPARATOR;
+            $this->fs->rename($fileToRename . 'vagrantconfig.dist.yml', $fileToRename . 'vagrantconfig.yml');
         } catch (\Exception $e) {
             // don't throw an exception in case any of the files cannot
             // be removed, because this is just an enhancement, not something mandatory
@@ -258,6 +260,5 @@ class InitCommand extends Command
         }
 
         return $this;
-
     }
 }
