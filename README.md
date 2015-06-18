@@ -1,19 +1,25 @@
-https://github.com/ideatosrl/vagrant-php-template<br>
+https://github.com/ideatosrl/vagrant-php-template
+
 https://github.com/symfony/symfony-installer/
 
 
 # Prima installazione
 
-`git clone https://Fuminshou@bitbucket.org/Fuminshou/vagrun.git`<br>
+`git clone https://Fuminshou@bitbucket.org/Fuminshou/vagrun.git`
+
 `composer install`
 
 
 # Creare il file .phar
 
-Installare http://box-project.org/<br>
-`curl -LSs https://box-project.github.io/box2/installer.php | php`<br>
-`chmod a+x box.phar`<br>
-`sudo mv box.phar /usr/local/bin/box`<br>
+Installare http://box-project.org/
+
+`curl -LSs https://box-project.github.io/box2/installer.php | php`
+
+`chmod a+x box.phar`
+
+`sudo mv box.phar /usr/local/bin/box`
+
 `box build -v`
 
 
