@@ -22,3 +22,8 @@ File da configurare:
         - adattare path ansible
 
         
+# Creare il file .phar
+
+- Installare http://box-project.org/
+- `box build -v`
+
