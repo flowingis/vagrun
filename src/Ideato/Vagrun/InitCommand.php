@@ -169,6 +169,7 @@ class InitCommand extends Command
                 "or because the uncompress commands of your operating system didn't work."
             ));
         }
+        
         return $this;
     }
 
@@ -187,6 +188,7 @@ class InitCommand extends Command
             $proxy = !empty($_SERVER['http_proxy']) ? $_SERVER['http_proxy'] : $_SERVER['HTTP_PROXY'];
             $options['proxy'] = $proxy;
         }
+
         return new Client($options);
     }
 
@@ -205,6 +207,7 @@ class InitCommand extends Command
         $pow = $bytes ? floor(log($bytes, 1024)) : 0;
         $pow = min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
+
         return number_format($bytes, 2) . ' ' . $units[$pow];
     }
 
@@ -223,9 +226,8 @@ class InitCommand extends Command
             $commandBinary = basename($commandBinary);
         }
         $commandName = $this->getName();
-        $commandArguments = sprintf('%s %s', $this->projectName, ('latest' !== $this->version) ? $this->version : '');
 
-        return sprintf('%s %s %s', $commandBinary, $commandName, $commandArguments);
+        return sprintf('%s %s', $commandBinary, $commandName);
     }
 
     /**
@@ -254,6 +256,7 @@ class InitCommand extends Command
             // be removed, because this is just an enhancement, not something mandatory
             // for the project
         }
+
         return $this;
 
     }
