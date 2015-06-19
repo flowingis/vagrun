@@ -6,7 +6,6 @@ use Distill\Distill;
 use Distill\Exception\IO\Input\FileCorruptedException;
 use Distill\Exception\IO\Input\FileEmptyException;
 use Distill\Exception\IO\Output\TargetDirectoryNotWritableException;
-use Distill\Strategy\MinimumSize;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Message\Response;
