@@ -5,7 +5,7 @@ https://github.com/symfony/symfony-installer/
 
 # Prima installazione
 
-`git clone https://Fuminshou@bitbucket.org/Fuminshou/vagrun.git`
+`git clone https://github.com/ideatosrl/vagrun.git`
 
 `composer install`
 
