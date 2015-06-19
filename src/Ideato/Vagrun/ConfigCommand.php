@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -70,20 +71,25 @@ class ConfigCommand extends Command
 
         $helper = $this->getHelper('question');
 
-        foreach($yaml as $key => $value)
-        {
-            $question = new Question('Set ' . $key . ': <fg=yellow>[' . $value . ']</fg=yellow> ', $value);
+        $question = new Question('Set ram: <fg=yellow>[' . $yaml["ram"] . ']</fg=yellow> ', $yaml["ram"]);
+        $response["ram"] = (int)$helper->ask($input, $output, $question);
+        $this->output->writeln("<fg=magenta>Ram: " . $response["ram"] . "MB</fg=magenta>\n");
 
-            //var_dump($yaml);
-            //NON FUNGE, restituisce tutti 1
+        $question = new Question('Set cpus: <fg=yellow>[' . $yaml["cpus"] . ']</fg=yellow> ', $yaml["cpus"]);
+        $response["cpus"] = (int)$helper->ask($input, $output, $question);
+        $this->output->writeln("<fg=magenta>Cpus: " . $response["cpus"] . "</fg=magenta>\n");
 
-            var_dump(gettype($value));
+        $question = new Question('Set IP address: <fg=yellow>[' . $yaml["ipaddress"] . ']</fg=yellow> ', $yaml["ipaddress"]);
+        $response["ipaddress"] = (string)$helper->ask($input, $output, $question);
+        $this->output->writeln("<fg=magenta>IP address: " . $response["ipaddress"] . "</fg=magenta>\n");
 
-            $type = gettype($value);
-            $response = settype($helper->ask($input, $output, $question), $type);
+        $question = new Question('Set VM name: <fg=yellow>[' . $yaml["name"] . ']</fg=yellow> ', $yaml["name"]);
+        $response["name"] = (string)$helper->ask($input, $output, $question);
+        $this->output->writeln("<fg=magenta>VM name: " . $response["name"] . "</fg=magenta>\n");
 
-            $this->output->writeln("\n<fg=magenta>You choosed " . $response . "</fg=magenta>\n");
-        }
+        $yamlNew = Yaml::dump($response);
+
+        file_put_contents($this->currentDir . DIRECTORY_SEPARATOR . '/vagrant/vagrantconfig.yml', $yamlNew);
 
         return $this;
     }
