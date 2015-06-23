@@ -79,17 +79,15 @@ class ConfigCommand extends Command
 
         $output->writeln('<comment>Please configure vagrantconfig.yml parameters</comment>');
 
-        $question = $this->createQuestion('ram', $yaml['ram']);
-        $response["ram"] = (int)$helper->ask($input, $output, $question);
+        $response = array();
+        foreach($yaml as $key=>$value) {
+            $question = $this->createQuestion($key, $yaml[$key]);
+            $response[$key] = $helper->ask($input, $output, $question);
 
-        $question = $this->createQuestion('cpus', $yaml['cpus']);
-        $response["cpus"] = (int)$helper->ask($input, $output, $question);
-
-        $question = $this->createQuestion('ipaddress', $yaml['ipaddress']);
-        $response["ipaddress"] = (string)$helper->ask($input, $output, $question);
-
-        $question = $this->createQuestion('name', $yaml['name']);
-        $response["name"] = (string)$helper->ask($input, $output, $question);
+            if(is_int($yaml[$key])) {
+                $response[$key] = (int)$response[$key];
+            }
+        }
 
         $yamlNew = Yaml::dump($response);
         file_put_contents($this->currentDir . DIRECTORY_SEPARATOR . '/vagrant/vagrantconfig.yml', $yamlNew);
