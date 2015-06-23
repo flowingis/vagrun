@@ -18,7 +18,7 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->currentDir = dirname(__DIR__) . '/../../tmp/';
+        $this->currentDir = sys_get_temp_dir() . '/';
         shell_exec('rm -rf ' . $this->currentDir . '*');
         touch($this->currentDir . 'Vagrantfile');
         shell_exec('cd ' . $this->currentDir . '&& mkdir vagrant && touch vagrant/vagrantconfig.yml');
