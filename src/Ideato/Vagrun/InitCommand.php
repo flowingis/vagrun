@@ -13,6 +13,7 @@ use GuzzleHttp\Subscriber\Progress\Progress;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -31,15 +32,19 @@ class InitCommand extends Command
     {
         $this
             ->setName('init')
-            ->setDescription('Creates a new vagrant template.');
+            ->setDescription('Creates a new vagrant template.')
+            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
         $this->fs = new Filesystem();
-
         $this->currentDir = getcwd() . DIRECTORY_SEPARATOR;
+
+        if($input->getOption('path')) {
+            $this->currentDir = $input->getOption('path') . DIRECTORY_SEPARATOR;
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

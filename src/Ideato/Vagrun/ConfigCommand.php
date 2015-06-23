@@ -14,6 +14,7 @@ use GuzzleHttp\Subscriber\Progress\Progress;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
@@ -35,7 +36,8 @@ class ConfigCommand extends Command
     {
         $this
             ->setName('config')
-            ->setDescription('Configure your vagrant machine');
+            ->setDescription('Configure your vagrant machine')
+            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -44,6 +46,10 @@ class ConfigCommand extends Command
         $this->fs = new Filesystem();
 
         $this->currentDir = getcwd() . DIRECTORY_SEPARATOR;
+
+        if($input->getOption('path')) {
+            $this->currentDir = $input->getOption('path') . DIRECTORY_SEPARATOR;
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
