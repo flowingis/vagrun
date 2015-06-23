@@ -34,8 +34,6 @@ EOD;
 
     public function testExecute()
     {
-
-
         $application = new Application();
         $application->add(new ConfigCommand());
 
@@ -57,10 +55,10 @@ EOD;
         ));
 
         $output = $commandTester->getDisplay();
-        $this->assertContains('Ram: 1024', $output);
-        $this->assertContains('Cpus: 2', $output);
-        $this->assertContains('IP address: 10.10.10.111', $output);
-        $this->assertContains('VM name: test-box', $output);
+        $this->assertContains('ram: 1024', $output);
+        $this->assertContains('cpus: 2', $output);
+        $this->assertContains('ipaddress: 10.10.10.111', $output);
+        $this->assertContains('name: test-box', $output);
 
         $yaml = Yaml::parse(file_get_contents($this->currentDir . '/vagrant/vagrantconfig.yml'));
         $expected = array(

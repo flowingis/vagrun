@@ -77,26 +77,37 @@ class ConfigCommand extends Command
 
         $helper = $this->getHelper('question');
 
-        $question = new Question('Set ram: <fg=yellow>[' . $yaml["ram"] . ']</fg=yellow> ', $yaml["ram"]);
+        $output->writeln('<comment>Please configure vagrantconfig.yml parameters</comment>');
+
+        $question = $this->createQuestion('ram', $yaml['ram']);
         $response["ram"] = (int)$helper->ask($input, $output, $question);
-        $this->output->writeln("<fg=magenta>Ram: " . $response["ram"] . "MB</fg=magenta>\n");
 
-        $question = new Question('Set cpus: <fg=yellow>[' . $yaml["cpus"] . ']</fg=yellow> ', $yaml["cpus"]);
+        $question = $this->createQuestion('cpus', $yaml['cpus']);
         $response["cpus"] = (int)$helper->ask($input, $output, $question);
-        $this->output->writeln("<fg=magenta>Cpus: " . $response["cpus"] . "</fg=magenta>\n");
 
-        $question = new Question('Set IP address: <fg=yellow>[' . $yaml["ipaddress"] . ']</fg=yellow> ', $yaml["ipaddress"]);
+        $question = $this->createQuestion('ipaddress', $yaml['ipaddress']);
         $response["ipaddress"] = (string)$helper->ask($input, $output, $question);
-        $this->output->writeln("<fg=magenta>IP address: " . $response["ipaddress"] . "</fg=magenta>\n");
 
-        $question = new Question('Set VM name: <fg=yellow>[' . $yaml["name"] . ']</fg=yellow> ', $yaml["name"]);
+        $question = $this->createQuestion('name', $yaml['name']);
         $response["name"] = (string)$helper->ask($input, $output, $question);
-        $this->output->writeln("<fg=magenta>VM name: " . $response["name"] . "</fg=magenta>\n");
 
         $yamlNew = Yaml::dump($response);
-
         file_put_contents($this->currentDir . DIRECTORY_SEPARATOR . '/vagrant/vagrantconfig.yml', $yamlNew);
 
+        $output->writeln("\n<info>New vagrantconfig.yml values:</info>");
+        $output->writeln(sprintf('<info>%s</info>', $yamlNew));
         return $this;
+    }
+
+    protected function createQuestion($question, $default)
+    {
+        $question = sprintf('<question>%s</question> (<comment>%s</comment>): ', $question, $default);
+        return new Question($question, $default);
+    }
+
+    protected function outputResponse($label, $value, $postfix = '')
+    {
+        $output = sprintf("<fg=magenta>%s: %s%s</fg=magenta>", $label, $value, $postfix);
+        $this->output->writeln($output);
     }
 }
