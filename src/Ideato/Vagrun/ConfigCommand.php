@@ -63,6 +63,7 @@ class ConfigCommand extends Command
         $this
             ->checkVagrunIsInstalled()
             ->configureFiles($input, $output)
+            ->configureVagrantfile($input, $output)
         ;
     }
 
@@ -82,11 +83,49 @@ class ConfigCommand extends Command
         foreach($this->configPaths as $name => $path)
         {
             if(file_exists($this->currentDir . DIRECTORY_SEPARATOR . $path)) {
-                $this
-                    ->configureFile($input, $output, $name, $path)
-                ;
+                $this->configureFile($input, $output, $name, $path);
             }
         }
+
+        return $this;
+    }
+
+    protected function configureVagrantfile(InputInterface $input, OutputInterface $output)
+    {
+        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'Vagrantfile';
+        $vagrantFileContent = file_get_contents($vagrantFile);
+
+        //set the path of vagrantconfig.yml according to Vagrantfile location
+        $search = array(
+            'vagrantconfig.yml',
+            'scripts/'
+        );
+        $replace = array(
+            'vagrant/vagrantconfig.yml',
+            'vagrant/scripts/'
+        );
+
+        //ask for synced folder path
+        $helper = $this->getHelper('question');
+
+        $defaultSyncedFolder = "/var/www";
+        $question = sprintf('<question>Enter the synced folder path</question> (<comment>%s</comment>): ', $defaultSyncedFolder);
+        $syncedFolder = $helper->ask($input, $output, new Question($question, $defaultSyncedFolder));
+
+        if($syncedFolder != $defaultSyncedFolder) {
+            $search[] = $defaultSyncedFolder;
+            $replace[] = $syncedFolder;
+
+            $search[] = ':args => "'.$syncedFolder.'"';
+            $replace[] = ':args => "'.$syncedFolder.'/vagrant"';
+        }
+
+        $vagrantFileContent = str_replace($search, $replace, $vagrantFileContent);
+
+        file_put_contents($vagrantFile, $vagrantFileContent);
+        $output->writeln("\n<info>Vagrantfile sucessfully updated</info>");
+
+        return $this;
     }
 
     protected function configureFile(InputInterface $input, OutputInterface $output, $name, $path)
