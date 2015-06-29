@@ -31,6 +31,12 @@ class ConfigCommand extends Command
     protected $fs;
     /** @var OutputInterface */
     protected $output;
+    /** @var Array */
+    protected $configPaths = array(
+        'vagrantconfig' => 'vagrant/vagrantconfig.yml',
+        'webserver' => 'vagrant/provisioning/ideato.webserver/vars/main.yml',
+        'database' => 'vagrant/provisioning/ideato.database.mysql/vars/main.yml'
+    );
 
     protected function configure()
     {
@@ -56,7 +62,7 @@ class ConfigCommand extends Command
     {
         $this
             ->checkVagrunIsInstalled()
-            ->setVagrantconfig($input, $output)
+            ->configureFiles($input, $output)
         ;
     }
 
@@ -71,13 +77,25 @@ class ConfigCommand extends Command
         return $this;
     }
 
-    protected function setVagrantconfig(InputInterface $input, OutputInterface $output)
+    protected function configureFiles(InputInterface $input, OutputInterface $output)
     {
-        $yaml = Yaml::parse(file_get_contents($this->currentDir . DIRECTORY_SEPARATOR . '/vagrant/vagrantconfig.yml'));
+        foreach($this->configPaths as $name => $path)
+        {
+            if(file_exists($this->currentDir . DIRECTORY_SEPARATOR . $path)) {
+                $this
+                    ->configureFile($input, $output, $name, $path)
+                ;
+            }
+        }
+    }
+
+    protected function configureFile(InputInterface $input, OutputInterface $output, $name, $path)
+    {
+        $yaml = Yaml::parse(file_get_contents($this->currentDir . DIRECTORY_SEPARATOR . $path));
 
         $helper = $this->getHelper('question');
 
-        $output->writeln('<comment>Please configure vagrantconfig.yml parameters</comment>');
+        $output->writeln("<comment>Please configure $name parameters</comment>");
 
         $response = array();
         foreach($yaml as $key=>$value) {
@@ -90,9 +108,9 @@ class ConfigCommand extends Command
         }
 
         $yamlNew = Yaml::dump($response);
-        file_put_contents($this->currentDir . DIRECTORY_SEPARATOR . '/vagrant/vagrantconfig.yml', $yamlNew);
+        file_put_contents($this->currentDir . DIRECTORY_SEPARATOR . $path, $yamlNew);
 
-        $output->writeln("\n<info>New vagrantconfig.yml values:</info>");
+        $output->writeln("\n<info>New $name values:</info>");
         $output->writeln(sprintf('<info>%s</info>', $yamlNew));
         return $this;
     }

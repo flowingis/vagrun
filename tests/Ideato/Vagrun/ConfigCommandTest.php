@@ -60,7 +60,7 @@ EOD;
         $this->assertContains('ipaddress: 10.10.10.111', $output);
         $this->assertContains('name: test-box', $output);
 
-        $yaml = Yaml::parse(file_get_contents($this->currentDir . '/vagrant/vagrantconfig.yml'));
+        $yaml = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
         $expected = array(
             "ram" => 1024,
             "cpus" => 2,
