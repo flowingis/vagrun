@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+echo "./bin/box build"
 ./bin/box build
+echo "cp ./vagrun.phar /tmp/vagrun"
 cp ./vagrun.phar /tmp/vagrun
+echo "/tmp/vagrun"
 cd /tmp/vagrun
 
 if git status --porcelain | grep .; then
