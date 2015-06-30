@@ -9,8 +9,7 @@
         "phpunit",
         "Tester",
         "Tests",
-        "tests",
-        "yaml"
+        "tests"
       ],
       "in": "vendor"
     }
