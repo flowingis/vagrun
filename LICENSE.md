@@ -1,53 +1,19 @@
-# Vagrun
+Copyright (c) 2015 Ideato srl
 
-Vagrun is a command-line tool that helps you to start and configure a PHP Vagrant machine from scratch. 
-Vagrun is based on [vagrant-php-template](https://github.com/ideatosrl/vagrant-php-template) project.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
 
-See [documentation](http://ideatosrl.github.io/vagrun/) for further information.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-[![Build Status](https://travis-ci.org/ideatosrl/vagrun.svg?branch=master)](https://travis-ci.org/ideatosrl/vagrun)
-
-## How to install
-
-`curl http://ideatosrl.github.io/vagrun/vagrun.phar > vagrun.phar`
-
-## Usage
-
-### Initialization
-
-`vagrun.phar init [--path=/your/path]`
-
-### Configuration
-
-`vagrun.phar config [--path=/your/path]`
-
-### Erase installation
-
->**WARNING:** use this command at your own risk
-
->The following code will **delete** all the configuration files and the directory .vagrant
-
-`vagrun.phar cleanup [--path=/your/path]`
-
-If you are sure to delete vagrant configuration and directory you could use the option 
-`--force` 
-to erase the installation without being prompted for confirmation.
-
-
-## Global installation
-
-Ask simo
-
-## Requirements
-
-PHP 5.4.0 or above.
-
-## Authors
-
-- Simone 'dymissy' D'Amico sd@ideato.it
-- Nicole Bartolini nb@ideato.it
-- [other contributors](https://github.com/ideatosrl/vagrun/graphs/contributors)
-
-## License
-
-Vagrun is licensed under the MIT License - see the LICENSE file for details.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
