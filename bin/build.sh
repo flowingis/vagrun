@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./bin/box build
+./bin/box build -v
 
 if git status --porcelain | grep .; then
     git add vagrun.phar
