@@ -9,6 +9,10 @@ php:
 install:
     - composer install
 
+after_success:
+    - ./bin/box build -v
+    
+
 notifications:
     slack: ideato:IbCCcq5XKF1Aa23xfDNa2uOS
     email:
