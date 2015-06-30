@@ -44,8 +44,8 @@ PHP 5.4.0 or above.
 
 ## Authors
 
-- Simone 'dymissy' D'Amico sd@ideato.it
-- Nicole Bartolini nb@ideato.it
+- Simone '[dymissy](https://github.com/dymissy)' D'Amico sd@ideato.it
+- Nicole '[Fuminshou](https://github.com/Fuminshou)' Bartolini nb@ideato.it
 - [other contributors](https://github.com/ideatosrl/vagrun/graphs/contributors)
 
 ## License
