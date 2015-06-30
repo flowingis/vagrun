@@ -1,0 +1,16 @@
+language: php
+php:
+    - 5.4
+    - 5.5
+    - 5.6
+    - hhvm
+    - nightly
+
+install:
+    - composer install
+
+notifications:
+    slack: ideato:IbCCcq5XKF1Aa23xfDNa2uOS
+    email:
+        - nb@ideato.it
+        - sd@ideato.it
