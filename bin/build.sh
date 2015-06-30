@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "./bin/box build"
-#./bin/box build
+./bin/box build
 
 if [ $? -ne 0 ]
 then
