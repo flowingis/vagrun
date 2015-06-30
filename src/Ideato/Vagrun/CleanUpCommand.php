@@ -21,14 +21,18 @@ class CleanUpCommand extends Command
         $this
             ->setName('cleanup')
             ->setDescription('Remove vagrant template from current directory')
+            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Remove vagrant template without interaction');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->fs = new Filesystem();
-
         $this->currentDir = getcwd() . DIRECTORY_SEPARATOR;
+
+        if($input->getOption('path')) {
+            $this->currentDir = $input->getOption('path') . DIRECTORY_SEPARATOR;
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
