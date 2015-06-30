@@ -10,8 +10,11 @@ install:
     - composer install
 
 after_success:
-    - ./bin/box build -v
-    
+    - chmod 600 .travis/deploy_key.pem
+    - ssh-add .travis/deploy_key.pem
+    - git config --global user.name ideatobot
+    - git config --global user.email info@ideato.it
+    - ./bin/build.sh
 
 notifications:
     slack: ideato:IbCCcq5XKF1Aa23xfDNa2uOS
