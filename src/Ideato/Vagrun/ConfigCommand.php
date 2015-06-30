@@ -2,25 +2,12 @@
 
 namespace Ideato\Vagrun;
 
-use Distill\Distill;
-use Distill\Exception\IO\Input\FileCorruptedException;
-use Distill\Exception\IO\Input\FileEmptyException;
-use Distill\Exception\IO\Output\TargetDirectoryNotWritableException;
-use Distill\Strategy\MinimumSize;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Subscriber\Progress\Progress;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Dumper;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class ConfigCommand extends Command
@@ -96,13 +83,9 @@ class ConfigCommand extends Command
         $vagrantFileContent = file_get_contents($vagrantFile);
 
         //set the path of vagrantconfig.yml according to Vagrantfile location
-        $search = array(
-            'vagrantconfig.yml',
-            'scripts/'
-        );
-        $replace = array(
-            'vagrant/vagrantconfig.yml',
-            'vagrant/scripts/'
+        $replacePairs = array(
+            'vagrantconfig.yml' => 'vagrant/vagrantconfig.yml',
+            'scripts/' => 'vagrant/scripts/'
         );
 
         //ask for synced folder path
@@ -113,16 +96,14 @@ class ConfigCommand extends Command
         $syncedFolder = $helper->ask($input, $output, new Question($question, $defaultSyncedFolder));
 
         if($syncedFolder != $defaultSyncedFolder) {
-            $search[] = $defaultSyncedFolder;
-            $replace[] = $syncedFolder;
-
-            $search[] = ':args => "'.$syncedFolder.'"';
-            $replace[] = ':args => "'.$syncedFolder.'/vagrant"';
+            $replacePairs[$defaultSyncedFolder] = $syncedFolder;
+            $replacePairs[':args => "'.$defaultSyncedFolder.'"'] = ':args => "'.$syncedFolder.'/vagrant"';
         }
 
-        $vagrantFileContent = str_replace($search, $replace, $vagrantFileContent);
-
+        $vagrantFileContent = strtr($vagrantFileContent, $replacePairs);
         file_put_contents($vagrantFile, $vagrantFileContent);
+
+        $output->writeln("\n<info>Synced folder: $syncedFolder</info>");
         $output->writeln("\n<info>Vagrantfile sucessfully updated</info>");
 
         return $this;
