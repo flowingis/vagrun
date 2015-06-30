@@ -1,6 +1,5 @@
 .idea
 
 /vendor/
-/vagrun.phar
 /vagrant/
 /Vagrantfile
