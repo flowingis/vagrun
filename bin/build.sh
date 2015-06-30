@@ -10,5 +10,6 @@ if git status --porcelain | grep .; then
     git commit -m "[Release] Released a new version of vagrun.phar"
     git push deploy master
     git push deploy gh-pages
+else
+    echo "nothing to commit"
 fi
-
