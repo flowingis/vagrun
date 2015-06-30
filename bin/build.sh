@@ -12,7 +12,7 @@ fi
 VAGRUN_REMOTE_VERSION=$(curl https://raw.githubusercontent.com/ideatosrl/vagrun/gh-pages/version)
 VAGRUN_LOCAL_VERSION=$(cat .git/refs/heads/master)
 
-if [ $VAGRUN_REMOTE_VERSION -eq $VAGRUN_LOCAL_VERSION ]
+if [ "$VAGRUN_REMOTE_VERSION" = "$VAGRUN_LOCAL_VERSION" ]
 then
     echo "release already deployed"
     exit 0
