@@ -17,7 +17,7 @@ after_success:
     - ssh-add bin/.travis/travis.pem
     - git config --global user.name ideatobot
     - git config --global user.email info@ideato.it
-    - git remote add deploy git@github.com:ideatosrl/vagrun.git
+    - git clone --depth=50 --branch=gh-pages git://github.com/ideatosrl/vagrun.git /tmp/vagrun
     - ./bin/build.sh
 
 notifications:
