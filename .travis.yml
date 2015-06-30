@@ -6,14 +6,18 @@ php:
     - hhvm
     - nightly
 
+before_install:
+    - openssl aes-256-cbc -K $encrypted_9c790549322a_key -iv $encrypted_9c790549322a_iv -in bin/.travis/travis.pem.enc -out bin/.travis/travis.pem -d
+
 install:
     - composer install
 
 after_success:
-    - chmod 600 .travis/deploy_key.pem
-    - ssh-add .travis/deploy_key.pem
+    - chmod 600 bin/.travis/travis.pem
+    - ssh-add bin/.travis/travis.pem
     - git config --global user.name ideatobot
     - git config --global user.email info@ideato.it
+    - git remote add deploy git@github.com:ideatosrl/vagrun.git
     - ./bin/build.sh
 
 notifications:
