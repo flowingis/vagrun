@@ -14,6 +14,7 @@ install:
 
 after_success:
     - chmod 600 bin/.travis/travis.pem
+    - eval `ssh-agent -s`
     - ssh-add bin/.travis/travis.pem
     - git config --global user.name ideatobot
     - git config --global user.email info@ideato.it
