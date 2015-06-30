@@ -12,10 +12,6 @@ if git status --porcelain | grep .; then
     git add vagrun.phar
     echo "git commit -m '[Release] Released a new version of vagrun.phar'"
     git commit -m "[Release] Released a new version of vagrun.phar"
-
-    git remote rm origin
-    git remote add origin git@github.com:ideatosrl/vagrun.git
-
     echo "git push origin gh-pages"
     git push origin gh-pages
 else
