@@ -3,23 +3,31 @@
 Vagrun is a command-line tool that helps you to start and configure a PHP Vagrant machine from scratch. 
 Vagrun is based on [vagrant-php-template](https://github.com/ideatosrl/vagrant-php-template) project.
 
-See [documentation](http://ideatosrl.github.io/vagrun/) for further information.
+Please, take a look at [documentation](http://ideatosrl.github.io/vagrun/) for further information and examples.
 
 [![Build Status](https://travis-ci.org/ideatosrl/vagrun.svg?branch=master)](https://travis-ci.org/ideatosrl/vagrun)
 
-## How to install
+## Requirements
 
-`curl http://ideatosrl.github.io/vagrun/vagrun.phar > vagrun.phar`
+PHP 5.4.0 or above.
+
+## Installation
+
+`curl http://ideatosrl.github.io/vagrun/vagrun.phar > your/path/vagrun.phar`
+
+## Global installation
+
+`sudo mv your/path/vagrun.phar /usr/local/bin/vagrun`
 
 ## Usage
 
 ### Initialization
 
-`vagrun.phar init [--path=/your/path]`
+`vagrun init [--path=/your/path]`
 
 ### Configuration
 
-`vagrun.phar config [--path=/your/path]`
+`vagrun config [--path=/your/path]`
 
 ### Erase installation
 
@@ -27,20 +35,10 @@ See [documentation](http://ideatosrl.github.io/vagrun/) for further information.
 
 >The following code will **delete** all the configuration files and the directory .vagrant
 
-`vagrun.phar cleanup [--path=/your/path]`
+`vagrun cleanup [--path=/your/path]`
 
-If you are sure to delete vagrant configuration and directory you could use the option 
-`--force` 
-to erase the installation without being prompted for confirmation.
-
-
-## Global installation
-
-See [documentation](http://ideatosrl.github.io/vagrun/) for further information.
-
-## Requirements
-
-PHP 5.4.0 or above.
+If you are sure to delete vagrant configuration and `.vagrant` directory you could use the option 
+`--force` to erase the installation without being prompted for confirmation.
 
 ## Authors
 
