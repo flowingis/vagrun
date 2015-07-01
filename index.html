@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
@@ -11,92 +11,129 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <title>Vagrun by ideatosrl</title>
-  </head>
+</head>
 
-  <body>
-    <div id="container">
-      <div class="inner">
+<body>
+<div id="container">
+    <div class="inner">
 
         <header>
-          <h1>Vagrun</h1>
-          <h2>Ideato automated configurator for Vagrant environment</h2>
+            <h1>Vagrun</h1>
+
+            <h2>Ideato automated configurator for Vagrant environment</h2>
         </header>
 
         <section id="downloads" class="clearfix">
-          <a href="vagrun.phar" id="download-zip" class="button"><span>Download .phar</span></a>
-          <a href="https://github.com/ideatosrl/vagrun" id="view-on-github" class="button"><span>View on GitHub</span></a>
+            <a href="vagrun.phar" id="download-zip" class="button"><span>Download .phar</span></a>
+            <a href="https://github.com/ideatosrl/vagrun" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
 
-        <hr>
-
         <section id="main_content">
-          <h2>Welcome to Vagrun</h2>
-          <pre><code>curl http://ideatosrl.github.io/vagrun/vagrun.phar > vagrun.phar</code></pre>
-          <p>
-            Vagrun is a command-line tool that helps you to start and configure a PHP Vagrant machine from scratch,
-            based on <a href="https://github.com/ideatosrl/vagrant-php-template" target="_blank">Vagrant template</a> project.
-            You can report issues and submit PRs on the <a href="https://github.com/ideatosrl/vagrun" target="_blank">github repo</a>,
-            we really appreciate that :)
-          </p>
+            <h2>Welcome to Vagrun</h2>
+            <pre><code>curl http://ideatosrl.github.io/vagrun/vagrun.phar > vagrun.phar</code></pre>
+            <p>
+                Vagrun is a command-line tool that helps you to start and configure a PHP Vagrant machine from scratch,
+                based on <a href="https://github.com/ideatosrl/vagrant-php-template" target="_blank">Vagrant
+                template</a> project.
+                You can report issues and submit PRs on the <a href="https://github.com/ideatosrl/vagrun"
+                                                               target="_blank">github repo</a>,
+                we really appreciate that &#10084;
+            </p>
 
-          <h2>Requirements</h2>
-          <p>PHP 5.4.0 or above.</p>
+            <h2>Requirements</h2>
+            <p>PHP 5.4.0 or above.</p>
 
-          <h2>Install Vagrun</h2>
-          <p><ul>
-            <li>Change into your project directory <pre><code>cd /path/to/your/project</code></pre></li>
-            <li>Get Vagrun <pre><code>curl http://ideatosrl.github.io/vagrun/vagrun.phar > vagrun.phar</code></pre></li>
-            <li>Make the phar executable <pre><code>chmod a+x vagrun.phar</code></pre></li>
-            <li>Create a new Vagrant environment <pre><code>vagrun.phar init [--path=/your/path]</code></pre></li>
-            <li>Configure the new environment <pre><code>vagrun.phar config [--path=/your/path]</code></pre></li>
-          </ul></p>
+            <h2>Install Vagrun</h2>
+            <p>Change into your project directory</p>
+            <pre><code>cd /path/to/your/project</code></pre>
+            <p>Get Vagrun</p>
+            <pre><code>curl http://ideatosrl.github.io/vagrun/vagrun.phar > vagrun.phar</code></pre>
+            <p>Make the phar executable</p>
+            <pre><code>chmod a+x vagrun.phar</code></pre>
 
-<!--          <h2>Global installation</h2>
-          <p>Work in progress, sorry.</p>
+            <h2>Global installation</h2>
+            <p>
+                If you want to install Vagrun globally move <code>vagrun.phar</code> in
+                <code>/usr/local/bin/vagrun</code> after completing the local installation
+            </p>
+            <pre><code>sudo mv vagrun.phar /usr/local/bin/vagrun</code></pre>
 
-          <h2>Usage example</h2>
-          <p>Without --path</p>
-          <p>With --path</p>-->
+            <h2>Usage</h2>
+            <h3>Init environment</h3>
+            <pre><code>vagrun init [--path=/your/path]</code></pre>
 
-          <h2>Erase installation</h2>
-          <h3>WARNING</h3>
-          <p>
-            Use this command at your own risk: the following code will <b>delete</b> all the configuration files and the directory <code>.vagrant</code>
-          </p>
-          <pre><code>vagrun.phar cleanup [--path=/your/path]</code></pre>
-          <p>
-            If you are sure to delete vagrant configuration and directory you could use the option
-            <code>--force</code>
-            to erase the installation without being prompted for confirmation.
-          </p>
+            <h3>Configure environment</h3>
+            <pre><code>vagrun config [--path=/your/path]</code></pre>
 
-          <h2>Authors</h2>
-          <p>
-            <a href="https://github.com/dymissy" target="_blank">Simone D'Amico</a>,
-            <a href="https://github.com/Fuminshou" target="_blank">Nicole Bartolini</a>
-            and <a href="https://github.com/ideatosrl/vagrun/graphs/contributors" target="_blank">other contributors</a>.
-          </p>
+            <h3>Erase installation</h3>
+            <h4>WARNING</h4>
+            <p>
+                Use this command at your own risk: the following code will <b>delete</b> all the configuration files and
+                the directory <code>.vagrant</code>
+            </p>
+            <pre><code>vagrun cleanup [--path=/your/path]</code></pre>
+            <p>
+                If you are sure to delete vagrant configuration and directory you could use the option
+                <code>--force</code>
+                to erase the installation without being prompted for confirmation.
+            </p>
 
-          <h2>License</h2>
-          <p>
-            Vagrun is licensed under the MIT License.<br>
-            See the <a href="https://github.com/ideatosrl/vagrun/blob/master/LICENSE" target="_blank">license</a> file for further details.
-          </p>
+            <h2>Usage example</h2>
+            <h3>Initialization and configuration</h3>
+            <p>For this example let's assume we've installed Vagrun globally and are ready to create a whole new Vagrant
+                environment inside our project folder</p>
+            <pre><code>nicole at ideatosrl in ~/Sites/cool-project
+$ vagrun init</code></pre>
 
-          <h2>Support or Contact</h2>
-          <p>
-            Having trouble with Vagrun? Check out the documentation or ask us for direct support to
-            <a href="mailto:info@ideato.it" target="_top">info@ideato.it</a> and we’ll help you sort it out.
-          </p>
+            <p>At this point the Vagrant environment is created but not configured. Let's do that</p>
+            <pre><code>nicole at ideatosrl in ~/Sites/cool-project
+$ vagrun config</code></pre>
+
+            <p>That's all, our Vagrant environment is ready! ＼(＾_＾)人(◠‿◠✿)／</p>
+            <p>
+                Last thing we need to do is add the chosen ipadress to our <code>/etc/hosts</code> file... but you
+                already did it, right?
+            </p>
+
+            <h3>Delete the environment</h3>
+            <p>
+                Now, days as passed, we grow older and wiser and have changed our mind about the whole configuration
+                and want to delete it, without deleting our project folder with awesome and tested code. We also don't
+                want to go inside the folder, so we use the <code>--path</code> option... and since we're great coders
+                we use the <code>--force</code> option.
+            </p>
+            <pre><code>nicole at ideatosrl in ~
+$ vagrun cleanup --path=~/Sites/cool-project --force</code></pre>
+
+            <h2>Authors</h2>
+            <p>
+                <a href="https://github.com/dymissy" target="_blank">Simone D'Amico</a>,
+                <a href="https://github.com/Fuminshou" target="_blank">Nicole Bartolini</a>
+                and <a href="https://github.com/ideatosrl/vagrun/graphs/contributors" target="_blank">other
+                contributors</a>.
+            </p>
+
+            <h2>License</h2>
+            <p>
+                Vagrun is licensed under the MIT License.
+                See the <a href="https://github.com/ideatosrl/vagrun/blob/master/LICENSE" target="_blank">license</a>
+                file for further details.
+            </p>
+
+            <h2>Support or Contact</h2>
+            <p>
+                Having trouble with Vagrun? Check out the documentation or ask us for direct support to
+                <a href="mailto:info@ideato.it" target="_top">info@ideato.it</a> and we’ll help you sort it out.
+            </p>
         </section>
 
         <footer>
-          Vagrun is maintained by <a href="https://github.com/ideatosrl">ideatosrl</a><br>
-          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by
-          <a href="https://twitter.com/jasonlong">Jason Long</a>.
+            Vagrun is maintained by <a href="https://github.com/ideatosrl">ideatosrl</a><br>
+            This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by
+            <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
-        
-      </div>
+
     </div>
-  </body>
+</div>
+</body>
 </html>
