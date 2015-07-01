@@ -15,11 +15,11 @@ See [documentation](http://ideatosrl.github.io/vagrun/) for further information.
 
 ### Initialization
 
-`vagrun.phar init [--path=/your/path]`
+`php vagrun.phar init [--path=/your/path]`
 
 ### Configuration
 
-`vagrun.phar config [--path=/your/path]`
+`php vagrun.phar config [--path=/your/path]`
 
 ### Erase installation
 
@@ -27,7 +27,7 @@ See [documentation](http://ideatosrl.github.io/vagrun/) for further information.
 
 >The following code will **delete** all the configuration files and the directory .vagrant
 
-`vagrun.phar cleanup [--path=/your/path]`
+`php vagrun.phar cleanup [--path=/your/path]`
 
 If you are sure to delete vagrant configuration and directory you could use the option 
 `--force` 
