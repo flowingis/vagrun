@@ -28,11 +28,6 @@ class SelfUpdateCommand extends Command
         ;
     }
 
-    protected function checkIsLatestVersion()
-    {
-        return $this;
-    }
-
     protected function getLatestVersion(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("\n<info>Updating Vagrun to the latest version...</info>");
@@ -59,5 +54,10 @@ class SelfUpdateCommand extends Command
             $output->writeln('\n<error>The download is corrupted ('.$e->getMessage().').</error>');
             $output->writeln('<error>Please re-run the selfupdate command to try again.</error>');
         }
+    }
+
+    protected function checkIsLatestVersion()
+    {
+        return $this;
     }
 }
