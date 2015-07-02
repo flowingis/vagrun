@@ -26,5 +26,6 @@ $app = new Symfony\Component\Console\Application('Vagrun', $appVersion);
 $app->add(new Ideato\Vagrun\InitCommand());
 $app->add(new Ideato\Vagrun\CleanUpCommand());
 $app->add(new Ideato\Vagrun\ConfigCommand());
+$app->add(new Ideato\Vagrun\SelfUpdateCommand());
 
 $app->run();
