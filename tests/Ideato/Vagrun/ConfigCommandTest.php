@@ -27,7 +27,7 @@ EOD;
         file_put_contents($this->currentDir . 'vagrant/vagrantconfig.yml', $config);
     }
 
-    public function testExecute()
+    public function testItCanUpdateConfigurationFile()
     {
         $application = new Application();
         $application->add(new ConfigCommand());
