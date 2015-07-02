@@ -39,7 +39,7 @@ EOD;
         $helper = $command->getHelper('question');
         $helper->setInputStream($this->getInputStream(
             "1024\n".
-            "2\n".
+            "1\n".
             "10.10.10.111\n".
             "test-box\n".
             "/var/www/vagrun\n"
@@ -52,7 +52,7 @@ EOD;
 
         $output = $commandTester->getDisplay();
         $this->assertContains('ram: 1024', $output);
-        $this->assertContains('cpus: 2', $output);
+        $this->assertContains('cpus: 1', $output);
         $this->assertContains('ipaddress: 10.10.10.111', $output);
         $this->assertContains('name: test-box', $output);
         $this->assertContains('Synced folder: /var/www/vagrun', $output);
@@ -60,7 +60,7 @@ EOD;
         $yaml = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
         $expected = array(
             "ram" => 1024,
-            "cpus" => 2,
+            "cpus" => 1,
             "ipaddress" => '10.10.10.111',
             "name" => 'test-box'
         );
