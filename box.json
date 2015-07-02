@@ -20,6 +20,7 @@
   ],
   "compression": "GZ",
   "git-version": "package_version",
+  "git-version": "git-version",
   "main": "vagrun",
   "output": "vagrun.phar",
   "stub": true,

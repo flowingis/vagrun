@@ -22,15 +22,21 @@ class SelfUpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this
-            ->checkIsLatestVersion()
-            ->getLatestVersion($input, $output)
-        ;
+        $already = ' already ';
+
+        $output->writeln("\n<info>Our imps are verifing your Vagrun version...</info>");
+
+        if(!$this->checkIsLatestVersion()) {
+            $this->getLatestVersion($input, $output);
+            $already = ' ';
+        }
+
+        $output->writeln("\n<info>...congrats! Your Vagrun is".$already."up to date!</info>");
     }
 
     protected function getLatestVersion(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("\n<info>Updating Vagrun to the latest version...</info>");
+        $output->writeln("\n<info>Yup, your Vagrun needs to be updated! Our sprites are already working on it!</info>");
 
         $remoteFilename = self::BASE_URL.'vagrun.phar';
         $localFilename = $_SERVER['argv'][0];
@@ -44,20 +50,25 @@ class SelfUpdateCommand extends Command
             // free the variable to unlock the file
             unset($phar);
             rename($tempFilename, $localFilename);
-
-            $output->writeln("\n<info>Vagrun successfully updated!</info>");
         } catch (\Exception $e) {
             @unlink($tempFilename);
             if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
                 throw $e;
             }
-            $output->writeln('\n<error>The download is corrupted ('.$e->getMessage().').</error>');
-            $output->writeln('<error>Please re-run the selfupdate command to try again.</error>');
+            $output->writeln("\n<error>What a pity: the download is corrupted (".$e->getMessage().").</error>");
+            $output->writeln("<error>Please master, give us another chance: re-run the selfupdate command to try again.</error>");
         }
     }
 
     protected function checkIsLatestVersion()
     {
-        return $this;
+        $localVersion = $this->getApplication()->getVersion();
+        $latestVersion = self::BASE_URL.'version';
+
+        if ($localVersion !== $latestVersion) {
+            return false;
+        }
+
+        return true;
     }
 }
