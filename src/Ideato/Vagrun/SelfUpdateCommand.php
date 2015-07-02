@@ -35,12 +35,13 @@ class SelfUpdateCommand extends Command
 
     protected function getLatestVersion(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("<info>Updating Vagrun to the latest version...</info>");
+        $output->writeln("\n<info>Updating Vagrun to the latest version...</info>");
 
         $remoteFilename = self::BASE_URL.'vagrun.phar';
         $localFilename = $_SERVER['argv'][0];
         $tempFilename = basename($localFilename, '.phar').'-temp.phar';
         file_put_contents($tempFilename, file_get_contents($remoteFilename));
+
         try {
             chmod($tempFilename, 0777 & ~umask());
             // test the phar validity
@@ -48,12 +49,14 @@ class SelfUpdateCommand extends Command
             // free the variable to unlock the file
             unset($phar);
             rename($tempFilename, $localFilename);
+
+            $output->writeln("\n<info>Vagrun successfully updated!</info>");
         } catch (\Exception $e) {
             @unlink($tempFilename);
             if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
                 throw $e;
             }
-            $output->writeln('<error>The download is corrupted ('.$e->getMessage().').</error>');
+            $output->writeln('\n<error>The download is corrupted ('.$e->getMessage().').</error>');
             $output->writeln('<error>Please re-run the selfupdate command to try again.</error>');
         }
     }
