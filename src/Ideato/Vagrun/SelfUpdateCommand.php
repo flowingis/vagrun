@@ -24,7 +24,7 @@ class SelfUpdateCommand extends Command
     {
         $already = ' already ';
 
-        $output->writeln("\n<info>Our imps are verifing your Vagrun version...</info>");
+        $output->writeln("\n<info>Our pixies are verifing your Vagrun version...</info>");
 
         if(!$this->checkIsLatestVersion()) {
             $this->getLatestVersion($input, $output);
@@ -36,7 +36,7 @@ class SelfUpdateCommand extends Command
 
     protected function getLatestVersion(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("\n<info>Yup, your Vagrun needs to be updated! Our sprites are already working on it!</info>");
+        $output->writeln("\n<info>Yup, your Vagrun needs to be updated! Our sprites are working on that!</info>");
 
         $remoteFilename = self::BASE_URL.'vagrun.phar';
         $localFilename = $_SERVER['argv'][0];
@@ -63,7 +63,7 @@ class SelfUpdateCommand extends Command
     protected function checkIsLatestVersion()
     {
         $localVersion = $this->getApplication()->getVersion();
-        $latestVersion = self::BASE_URL.'version';
+        $latestVersion = trim(file_get_contents(self::BASE_URL.'version', false));
 
         if ($localVersion !== $latestVersion) {
             return false;
