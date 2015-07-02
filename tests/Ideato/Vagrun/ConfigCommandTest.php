@@ -46,7 +46,7 @@ EOD;
         ));
 
         $commandTester->execute(array(
-            'command' => $command->getName(),
+            'command' => 'config',
             '--path' => $this->currentDir
         ));
 
