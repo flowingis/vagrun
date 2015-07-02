@@ -48,14 +48,14 @@ EOD;
         $this->assertContains('name: test-box', $output);
         $this->assertContains('Synced folder: /var/www/vagrun', $output);
 
-        $yaml = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
+        $updatedConfigFile = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
         $expected = array(
             "ram" => 1024,
             "cpus" => 1,
             "ipaddress" => '10.10.10.111',
             "name" => 'test-box'
         );
-        $this->assertEquals($expected, $yaml);
+        $this->assertEquals($expected, $updatedConfigFile);
 
         $vagrantFile = file_get_contents($this->currentDir . 'Vagrantfile');
         $this->assertEquals(2, substr_count($vagrantFile, 'vagrant/vagrantconfig.yml'));
