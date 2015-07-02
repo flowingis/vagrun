@@ -29,27 +29,17 @@ EOD;
 
     public function testItCanUpdateConfigurationFile()
     {
-        $application = new Application();
-        $application->add(new ConfigCommand());
-
-        $command = $application->find('config');
-        $commandTester = new CommandTester($command);
-
-        $this->setUserAnswersForCommandQuestion(
+        $command = new ConfigCommand();
+        $commandTester = $this->executeCommand(
+            $command,
             [
                 "1024",
                 "1",
                 "10.10.10.111",
                 "test-box",
                 "/var/www/vagrun"
-            ],
-            $command
+            ]
         );
-
-        $commandTester->execute(array(
-            'command' => 'config',
-            '--path' => $this->currentDir
-        ));
 
         $output = $commandTester->getDisplay();
         $this->assertContains('ram: 1024', $output);
@@ -98,5 +88,32 @@ EOD;
                 implode("\n", $answers)
             )
         );
+    }
+
+    /**
+     * @param $command
+     * @param $userAnswers
+     * @return CommandTester
+     */
+    private function executeCommand($command, $userAnswers)
+    {
+        $application = new Application();
+        $application->add($command);
+
+        $command = $application->find('config');
+        $commandTester = new CommandTester($command);
+
+        $this->setUserAnswersForCommandQuestion(
+            $userAnswers,
+            $command
+        );
+
+        $commandTester->execute(
+            array(
+                'command' => 'config',
+                '--path' => $this->currentDir
+            )
+        );
+        return $commandTester;
     }
 }
