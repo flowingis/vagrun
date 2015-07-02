@@ -33,17 +33,18 @@ EOD;
         $application->add(new ConfigCommand());
 
         $command = $application->find('config');
-
         $commandTester = new CommandTester($command);
 
-        $helper = $command->getHelper('question');
-        $helper->setInputStream($this->getInputStream(
-            "1024\n".
-            "1\n".
-            "10.10.10.111\n".
-            "test-box\n".
-            "/var/www/vagrun\n"
-        ));
+        $this->setUserAnswersForCommandQuestion(
+            [
+                "1024",
+                "1",
+                "10.10.10.111",
+                "test-box",
+                "/var/www/vagrun"
+            ],
+            $command
+        );
 
         $commandTester->execute(array(
             'command' => 'config',
@@ -83,5 +84,19 @@ EOD;
     protected function tearDown()
     {
         shell_exec('rm -rf ' . $this->currentDir);
+    }
+
+    /**
+     * @param $command
+     * @param $answers
+     */
+    private function setUserAnswersForCommandQuestion($answers, $command)
+    {
+        $helper = $command->getHelper('question');
+        $helper->setInputStream(
+            $this->getInputStream(
+                implode("\n", $answers)
+            )
+        );
     }
 }
