@@ -16,13 +16,22 @@ require file_exists(__DIR__.'/vendor/autoload.php')
     : __DIR__.'/../../autoload.php';
 
 $appVersion = '@package_version@';
+$logo = " __  __     __        __      _ __   __  __    ___
+/\ \/\ \  /'__`\    /'_ `\   /\`'__\/\ \/\ \ /' _ `\
+\ \ \_/ |/\ \L\.\_ /\ \L\ \  \ \ \/ \ \ \_\ \/\ \/\ \
+ \ \___/ \ \__/.\_\\\ \____ \  \ \_\  \ \____/\ \_\ \_\
+  \/__/   \/__/\/_/  \/___L\ \  \/_/   \/___/  \/_/\/_/
+                       /\____/
+                       \_/__/
+
+";
 
 // Windows uses Path instead of PATH
 if (!isset($_SERVER['PATH']) && isset($_SERVER['Path'])) {
     $_SERVER['PATH'] = $_SERVER['Path'];
 }
 
-$app = new Symfony\Component\Console\Application('Vagrun', $appVersion);
+$app = new Symfony\Component\Console\Application($logo, $appVersion);
 $app->add(new Ideato\Vagrun\InitCommand());
 $app->add(new Ideato\Vagrun\CleanUpCommand());
 $app->add(new Ideato\Vagrun\ConfigCommand());
