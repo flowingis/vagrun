@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
-echo "./bin/box build"
-./bin/box build
+COMMIT_MSG=$(git log -1 --pretty=%B)
 
-if [ $? -ne 0 ]
+if [[ $COMMIT_MSG != *"[release]"* ]]
 then
-    echo "box build fails"
+    echo "skipping, not a release commit"
     exit 0
 fi
+
+echo "./bin/box build"
+./bin/box build
 
 VAGRUN_REMOTE_VERSION=$(curl https://raw.githubusercontent.com/ideatosrl/vagrun/gh-pages/version)
 VAGRUN_LOCAL_VERSION=$(cat .git/refs/heads/master)
@@ -15,6 +17,12 @@ VAGRUN_LOCAL_VERSION=$(cat .git/refs/heads/master)
 if [ "$VAGRUN_REMOTE_VERSION" = "$VAGRUN_LOCAL_VERSION" ]
 then
     echo "release already deployed"
+    exit 0
+fi
+
+if [ $? -ne 0 ]
+then
+    echo "box build fails"
     exit 0
 fi
 
@@ -37,7 +45,6 @@ if git status --porcelain | grep .; then
     git add version
     echo "git commit -m '[Release] Released a new version of vagrun.phar'"
     git commit -m "[Release] Released a new version of vagrun.phar"
-    cat .git/refs/heads/master
     echo "git push origin gh-pages"
     git push origin gh-pages
 else
