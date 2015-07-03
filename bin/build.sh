@@ -8,9 +8,6 @@ then
     exit 0
 fi
 
-echo "./bin/box build"
-./bin/box build
-
 VAGRUN_REMOTE_VERSION=$(curl https://raw.githubusercontent.com/ideatosrl/vagrun/gh-pages/version)
 VAGRUN_LOCAL_VERSION=$(cat .git/refs/heads/master)
 
@@ -19,6 +16,9 @@ then
     echo "release already deployed"
     exit 0
 fi
+
+echo "./bin/box build"
+./bin/box build
 
 if [ $? -ne 0 ]
 then
