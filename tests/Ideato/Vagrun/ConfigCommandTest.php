@@ -27,44 +27,35 @@ EOD;
         file_put_contents($this->currentDir . 'vagrant/vagrantconfig.yml', $config);
     }
 
-    public function testExecute()
+    public function testItCanUpdateConfigurationFile()
     {
-        $application = new Application();
-        $application->add(new ConfigCommand());
-
-        $command = $application->find('config');
-
-        $commandTester = new CommandTester($command);
-
-        $helper = $command->getHelper('question');
-        $helper->setInputStream($this->getInputStream(
-            "1024\n".
-            "2\n".
-            "10.10.10.111\n".
-            "test-box\n".
-            "/var/www/vagrun\n"
-        ));
-
-        $commandTester->execute(array(
-            'command' => $command->getName(),
-            '--path' => $this->currentDir
-        ));
+        $command = new ConfigCommand();
+        $commandTester = $this->executeCommand(
+            $command,
+            [
+                "1024",
+                "1",
+                "10.10.10.111",
+                "test-box",
+                "/var/www/vagrun"
+            ]
+        );
 
         $output = $commandTester->getDisplay();
         $this->assertContains('ram: 1024', $output);
-        $this->assertContains('cpus: 2', $output);
+        $this->assertContains('cpus: 1', $output);
         $this->assertContains('ipaddress: 10.10.10.111', $output);
         $this->assertContains('name: test-box', $output);
         $this->assertContains('Synced folder: /var/www/vagrun', $output);
 
-        $yaml = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
+        $updatedConfigFile = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
         $expected = array(
             "ram" => 1024,
-            "cpus" => 2,
+            "cpus" => 1,
             "ipaddress" => '10.10.10.111',
             "name" => 'test-box'
         );
-        $this->assertEquals($expected, $yaml);
+        $this->assertEquals($expected, $updatedConfigFile);
 
         $vagrantFile = file_get_contents($this->currentDir . 'Vagrantfile');
         $this->assertEquals(2, substr_count($vagrantFile, 'vagrant/vagrantconfig.yml'));
@@ -83,5 +74,46 @@ EOD;
     protected function tearDown()
     {
         shell_exec('rm -rf ' . $this->currentDir);
+    }
+
+    /**
+     * @param $command
+     * @param $answers
+     */
+    private function setUserAnswersForCommandQuestion($answers, $command)
+    {
+        $helper = $command->getHelper('question');
+        $helper->setInputStream(
+            $this->getInputStream(
+                implode("\n", $answers)
+            )
+        );
+    }
+
+    /**
+     * @param $command
+     * @param $userAnswers
+     * @return CommandTester
+     */
+    private function executeCommand($command, $userAnswers)
+    {
+        $application = new Application();
+        $application->add($command);
+
+        $command = $application->find('config');
+        $commandTester = new CommandTester($command);
+
+        $this->setUserAnswersForCommandQuestion(
+            $userAnswers,
+            $command
+        );
+
+        $commandTester->execute(
+            array(
+                'command' => 'config',
+                '--path' => $this->currentDir
+            )
+        );
+        return $commandTester;
     }
 }
