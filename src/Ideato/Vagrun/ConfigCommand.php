@@ -81,6 +81,16 @@ class ConfigCommand extends Command
         $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Vagrantfile';
         $vagrantFileContent = file_get_contents($vagrantFile);
 
+        $helper = $this->getHelper('question');
+
+        //set the base box name
+        if(!preg_match("/config.vm.box = \"(.*)\"/", $vagrantFileContent, $matches)) {
+            throw new \RuntimeException('Base box not found in Vagrantfile');
+        }
+        $defaultBaseBox = $matches[1];
+        $question = sprintf('<question>Enter the base box</question> (<comment>%s</comment>): ', $defaultBaseBox);
+        $baseBox = $helper->ask($input, $output, new Question($question, $defaultBaseBox));
+
         //set the path of vagrantconfig.yml according to Vagrantfile location
         $replacePairs = array(
             'vagrantconfig.yml' => 'vagrant/vagrantconfig.yml',
@@ -88,11 +98,14 @@ class ConfigCommand extends Command
         );
 
         //ask for synced folder path
-        $helper = $this->getHelper('question');
-
         $defaultSyncedFolder = '/var/www';
         $question = sprintf('<question>Enter the synced folder path</question> (<comment>%s</comment>): ', $defaultSyncedFolder);
         $syncedFolder = $helper->ask($input, $output, new Question($question, $defaultSyncedFolder));
+
+        //update Vagrantfile
+        if($defaultBaseBox != $baseBox) {
+            $replacePairs[$defaultBaseBox] = $baseBox;
+        }
 
         if ($syncedFolder != $defaultSyncedFolder) {
             $replacePairs[$defaultSyncedFolder] = $syncedFolder;
@@ -102,6 +115,7 @@ class ConfigCommand extends Command
         $vagrantFileContent = strtr($vagrantFileContent, $replacePairs);
         file_put_contents($vagrantFile, $vagrantFileContent);
 
+        $output->writeln("\n<info>Base box: $baseBox</info>");
         $output->writeln("\n<info>Synced folder: $syncedFolder</info>");
         $output->writeln("\n<info>Vagrantfile sucessfully updated</info>");
 
