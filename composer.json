@@ -1,5 +1,5 @@
 {
-  "name": "ideatosrl/vagrun",
+  "name": "ideato/vagrun",
   "description": "The official installer to create Vagrant projects based on the vagrant-php-template",
   "keywords": ["vagrant", "installer", "php"],
   "license": "MIT",
