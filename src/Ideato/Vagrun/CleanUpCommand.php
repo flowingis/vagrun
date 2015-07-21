@@ -28,10 +28,10 @@ class CleanUpCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->fs = new Filesystem();
-        $this->currentDir = getcwd() . DIRECTORY_SEPARATOR;
+        $this->currentDir = getcwd().DIRECTORY_SEPARATOR;
 
-        if($input->getOption('path')) {
-            $this->currentDir = $input->getOption('path') . DIRECTORY_SEPARATOR;
+        if ($input->getOption('path')) {
+            $this->currentDir = $input->getOption('path').DIRECTORY_SEPARATOR;
         }
     }
 
@@ -40,9 +40,9 @@ class CleanUpCommand extends Command
         $force = $input->getOption('force');
 
         $filesToRemove = array(
-            $this->currentDir . 'Vagrantfile',
-            $this->currentDir . '.vagrant',
-            $this->currentDir . 'vagrant',
+            $this->currentDir.'Vagrantfile',
+            $this->currentDir.'.vagrant',
+            $this->currentDir.'vagrant',
         );
 
         $helper = $this->getHelper('question');

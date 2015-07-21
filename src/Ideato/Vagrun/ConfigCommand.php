@@ -22,7 +22,7 @@ class ConfigCommand extends Command
     protected $configPaths = array(
         'vagrantconfig' => 'vagrant/vagrantconfig.yml',
         'webserver' => 'vagrant/provisioning/ideato.webserver/vars/main.yml',
-        'database' => 'vagrant/provisioning/ideato.database.mysql/vars/main.yml'
+        'database' => 'vagrant/provisioning/ideato.database.mysql/vars/main.yml',
     );
 
     protected function configure()
@@ -38,10 +38,10 @@ class ConfigCommand extends Command
         $this->output = $output;
         $this->fs = new Filesystem();
 
-        $this->currentDir = getcwd() . DIRECTORY_SEPARATOR;
+        $this->currentDir = getcwd().DIRECTORY_SEPARATOR;
 
-        if($input->getOption('path')) {
-            $this->currentDir = $input->getOption('path') . DIRECTORY_SEPARATOR;
+        if ($input->getOption('path')) {
+            $this->currentDir = $input->getOption('path').DIRECTORY_SEPARATOR;
         }
     }
 
@@ -56,7 +56,7 @@ class ConfigCommand extends Command
 
     protected function checkVagrunIsInstalled()
     {
-        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'Vagrantfile';
+        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Vagrantfile';
 
         if (!$this->fs->exists($vagrantFile)) {
             throw new \RuntimeException('Vagrant template is not initialized. Please run `vagrun init` instead.');
@@ -67,9 +67,8 @@ class ConfigCommand extends Command
 
     protected function configureFiles(InputInterface $input, OutputInterface $output)
     {
-        foreach($this->configPaths as $name => $path)
-        {
-            if(file_exists($this->currentDir . DIRECTORY_SEPARATOR . $path)) {
+        foreach ($this->configPaths as $name => $path) {
+            if (file_exists($this->currentDir.DIRECTORY_SEPARATOR.$path)) {
                 $this->configureFile($input, $output, $name, $path);
             }
         }
@@ -79,23 +78,23 @@ class ConfigCommand extends Command
 
     protected function configureVagrantfile(InputInterface $input, OutputInterface $output)
     {
-        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'Vagrantfile';
+        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Vagrantfile';
         $vagrantFileContent = file_get_contents($vagrantFile);
 
         //set the path of vagrantconfig.yml according to Vagrantfile location
         $replacePairs = array(
             'vagrantconfig.yml' => 'vagrant/vagrantconfig.yml',
-            'scripts/' => 'vagrant/scripts/'
+            'scripts/' => 'vagrant/scripts/',
         );
 
         //ask for synced folder path
         $helper = $this->getHelper('question');
 
-        $defaultSyncedFolder = "/var/www";
+        $defaultSyncedFolder = '/var/www';
         $question = sprintf('<question>Enter the synced folder path</question> (<comment>%s</comment>): ', $defaultSyncedFolder);
         $syncedFolder = $helper->ask($input, $output, new Question($question, $defaultSyncedFolder));
 
-        if($syncedFolder != $defaultSyncedFolder) {
+        if ($syncedFolder != $defaultSyncedFolder) {
             $replacePairs[$defaultSyncedFolder] = $syncedFolder;
             $replacePairs[':args => "'.$defaultSyncedFolder.'"'] = ':args => "'.$syncedFolder.'/vagrant"';
         }
@@ -111,39 +110,41 @@ class ConfigCommand extends Command
 
     protected function configureFile(InputInterface $input, OutputInterface $output, $name, $path)
     {
-        $yaml = Yaml::parse(file_get_contents($this->currentDir . DIRECTORY_SEPARATOR . $path));
+        $yaml = Yaml::parse(file_get_contents($this->currentDir.DIRECTORY_SEPARATOR.$path));
 
         $helper = $this->getHelper('question');
 
         $output->writeln("<comment>Please configure $name parameters</comment>");
 
         $response = array();
-        foreach($yaml as $key=>$value) {
+        foreach ($yaml as $key => $value) {
             $question = $this->createQuestion($key, $yaml[$key]);
             $response[$key] = $helper->ask($input, $output, $question);
 
-            if(is_int($yaml[$key])) {
-                $response[$key] = (int)$response[$key];
+            if (is_int($yaml[$key])) {
+                $response[$key] = (int) $response[$key];
             }
         }
 
         $yamlNew = Yaml::dump($response);
-        file_put_contents($this->currentDir . DIRECTORY_SEPARATOR . $path, $yamlNew);
+        file_put_contents($this->currentDir.DIRECTORY_SEPARATOR.$path, $yamlNew);
 
         $output->writeln("\n<info>New $name values:</info>");
         $output->writeln(sprintf('<info>%s</info>', $yamlNew));
+
         return $this;
     }
 
     protected function createQuestion($question, $default)
     {
         $question = sprintf('<question>%s</question> (<comment>%s</comment>): ', $question, $default);
+
         return new Question($question, $default);
     }
 
     protected function outputResponse($label, $value, $postfix = '')
     {
-        $output = sprintf("<fg=magenta>%s: %s%s</fg=magenta>", $label, $value, $postfix);
+        $output = sprintf('<fg=magenta>%s: %s%s</fg=magenta>', $label, $value, $postfix);
         $this->output->writeln($output);
     }
 }

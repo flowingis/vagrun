@@ -13,10 +13,10 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->currentDir = sys_get_temp_dir() . '/vagrun.' . uniqid(time()) . '/';
-        shell_exec('mkdir ' . $this->currentDir);
-        shell_exec(sprintf('cp %s %s/Vagrantfile', __DIR__ . '/../../fixtures/Vagrantfile.template', $this->currentDir));
-        shell_exec('cd ' . $this->currentDir . '&& mkdir vagrant && touch vagrant/vagrantconfig.yml');
+        $this->currentDir = sys_get_temp_dir().'/vagrun.'.uniqid(time()).'/';
+        shell_exec('mkdir '.$this->currentDir);
+        shell_exec(sprintf('cp %s %s/Vagrantfile', __DIR__.'/../../fixtures/Vagrantfile.template', $this->currentDir));
+        shell_exec('cd '.$this->currentDir.'&& mkdir vagrant && touch vagrant/vagrantconfig.yml');
 
         $config = <<<EOD
 ram: 2048
@@ -24,7 +24,7 @@ cpus: 2
 ipaddress: 10.10.10.10
 name: vagrant-box-name
 EOD;
-        file_put_contents($this->currentDir . 'vagrant/vagrantconfig.yml', $config);
+        file_put_contents($this->currentDir.'vagrant/vagrantconfig.yml', $config);
     }
 
     public function testItCanUpdateConfigurationFile()
@@ -33,11 +33,11 @@ EOD;
         $commandTester = $this->executeCommand(
             $command,
             [
-                "1024",
-                "1",
-                "10.10.10.111",
-                "test-box",
-                "/var/www/vagrun"
+                '1024',
+                '1',
+                '10.10.10.111',
+                'test-box',
+                '/var/www/vagrun',
             ]
         );
 
@@ -48,16 +48,16 @@ EOD;
         $this->assertContains('name: test-box', $output);
         $this->assertContains('Synced folder: /var/www/vagrun', $output);
 
-        $updatedConfigFile = Yaml::parse(file_get_contents($this->currentDir . 'vagrant/vagrantconfig.yml'));
+        $updatedConfigFile = Yaml::parse(file_get_contents($this->currentDir.'vagrant/vagrantconfig.yml'));
         $expected = array(
-            "ram" => 1024,
-            "cpus" => 1,
-            "ipaddress" => '10.10.10.111',
-            "name" => 'test-box'
+            'ram' => 1024,
+            'cpus' => 1,
+            'ipaddress' => '10.10.10.111',
+            'name' => 'test-box',
         );
         $this->assertEquals($expected, $updatedConfigFile);
 
-        $vagrantFile = file_get_contents($this->currentDir . 'Vagrantfile');
+        $vagrantFile = file_get_contents($this->currentDir.'Vagrantfile');
         $this->assertEquals(2, substr_count($vagrantFile, 'vagrant/vagrantconfig.yml'));
         $this->assertEquals(3, substr_count($vagrantFile, '/var/www/vagrun'));
     }
@@ -73,7 +73,7 @@ EOD;
 
     protected function tearDown()
     {
-        shell_exec('rm -rf ' . $this->currentDir);
+        shell_exec('rm -rf '.$this->currentDir);
     }
 
     /**
@@ -93,6 +93,7 @@ EOD;
     /**
      * @param $command
      * @param $userAnswers
+     *
      * @return CommandTester
      */
     private function executeCommand($command, $userAnswers)
@@ -111,9 +112,10 @@ EOD;
         $commandTester->execute(
             array(
                 'command' => 'config',
-                '--path' => $this->currentDir
+                '--path' => $this->currentDir,
             )
         );
+
         return $commandTester;
     }
 }

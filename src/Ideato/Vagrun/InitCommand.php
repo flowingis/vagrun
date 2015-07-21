@@ -40,10 +40,10 @@ class InitCommand extends Command
     {
         $this->output = $output;
         $this->fs = new Filesystem();
-        $this->currentDir = getcwd() . DIRECTORY_SEPARATOR;
+        $this->currentDir = getcwd().DIRECTORY_SEPARATOR;
 
-        if($input->getOption('path')) {
-            $this->currentDir = $input->getOption('path') . DIRECTORY_SEPARATOR;
+        if ($input->getOption('path')) {
+            $this->currentDir = $input->getOption('path').DIRECTORY_SEPARATOR;
         }
     }
 
@@ -58,7 +58,7 @@ class InitCommand extends Command
 
     protected function checkVagrunIsInstallable()
     {
-        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'Vagrantfile';
+        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Vagrantfile';
 
         if ($this->fs->exists($vagrantFile)) {
             throw new \RuntimeException('Vagrant template is already initialized');
@@ -108,12 +108,11 @@ class InitCommand extends Command
         $client = $this->getGuzzleClient();
         $client->getEmitter()->attach(new Progress(null, $downloadCallback));
         // store the file in a temporary hidden directory with a random name
-        $this->downloadedFilePath = rtrim($this->currentDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . '.' . uniqid(time()) . DIRECTORY_SEPARATOR . 'vagrun.' . pathinfo($archiveFile, PATHINFO_EXTENSION);
+        $this->downloadedFilePath = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'.'.uniqid(time()).DIRECTORY_SEPARATOR.'vagrun.'.pathinfo($archiveFile, PATHINFO_EXTENSION);
 
         try {
             $response = $client->get($archiveFile);
         } catch (ClientException $e) {
-
             throw new \RuntimeException(sprintf(
                 "There was an error downloading from github.com server:\n%s",
                 $e->getMessage()
@@ -138,44 +137,43 @@ class InitCommand extends Command
             $extractionSucceeded = $distill->extract($this->downloadedFilePath, $this->currentDir);
         } catch (FileCorruptedException $e) {
             throw new \RuntimeException(sprintf(
-                "Vagrun can't be installed because the downloaded package is corrupted.\n" .
+                "Vagrun can't be installed because the downloaded package is corrupted.\n".
                 "To solve this issue, try executing this command again:\n%s",
                 $this->getExecutedCommand()
             ));
         } catch (FileEmptyException $e) {
             throw new \RuntimeException(sprintf(
-                "Vagrun can't be installed because the downloaded package is empty.\n" .
+                "Vagrun can't be installed because the downloaded package is empty.\n".
                 "To solve this issue, try executing this command again:\n%s",
                 $this->getExecutedCommand()
             ));
         } catch (TargetDirectoryNotWritableException $e) {
             throw new \RuntimeException(sprintf(
-                "Vagrun can't be installed because the installer doesn't have enough\n" .
-                "permissions to uncompress and rename the package contents.\n" .
-                "To solve this issue, check the permissions of the %s directory and\n" .
+                "Vagrun can't be installed because the installer doesn't have enough\n".
+                "permissions to uncompress and rename the package contents.\n".
+                "To solve this issue, check the permissions of the %s directory and\n".
                 "try executing this command again:\n%s",
                 $this->currentDir, $this->getExecutedCommand()
             ));
         } catch (\Exception $e) {
             throw new \RuntimeException(sprintf(
-                "Vagrun can't be installed because the downloaded package is corrupted\n" .
-                "or because the installer doesn't have enough permissions to uncompress and\n" .
-                "rename the package contents.\n" .
-                "To solve this issue, check the permissions of the %s directory and\n" .
+                "Vagrun can't be installed because the downloaded package is corrupted\n".
+                "or because the installer doesn't have enough permissions to uncompress and\n".
+                "rename the package contents.\n".
+                "To solve this issue, check the permissions of the %s directory and\n".
                 "try executing this command again:\n%s",
                 $this->currentDir, $this->getExecutedCommand()
             ), null, $e);
         }
         if (!$extractionSucceeded) {
             throw new \RuntimeException(sprintf(
-                "Vagrun can't be installed because the downloaded package is corrupted\n" .
+                "Vagrun can't be installed because the downloaded package is corrupted\n".
                 "or because the uncompress commands of your operating system didn't work."
             ));
         }
-        
+
         return $this;
     }
-
 
     /**
      * Returns the Guzzle client configured according to the system environment
@@ -195,7 +193,6 @@ class InitCommand extends Command
         return new Client($options);
     }
 
-
     /**
      * Utility method to show the number of bytes in a readable format.
      *
@@ -211,7 +208,7 @@ class InitCommand extends Command
         $pow = min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
 
-        return number_format($bytes, 2) . ' ' . $units[$pow];
+        return number_format($bytes, 2).' '.$units[$pow];
     }
 
     /**
@@ -247,18 +244,18 @@ class InitCommand extends Command
         $this->fs->remove(dirname($this->downloadedFilePath));
 
         try {
-            $this->fs->rename($this->currentDir . 'vagrant-php-template-master', $this->currentDir . 'vagrant');
-            $this->fs->copy($this->currentDir . 'vagrant/Vagrantfile', $this->currentDir . 'Vagrantfile');
+            $this->fs->rename($this->currentDir.'vagrant-php-template-master', $this->currentDir.'vagrant');
+            $this->fs->copy($this->currentDir.'vagrant/Vagrantfile', $this->currentDir.'Vagrantfile');
 
             $filesToRemove = array(
-                $this->currentDir . 'vagrant/.gitignore',
-                $this->currentDir . 'vagrant/README.md',
-                $this->currentDir . 'vagrant/Vagrantfile',
+                $this->currentDir.'vagrant/.gitignore',
+                $this->currentDir.'vagrant/README.md',
+                $this->currentDir.'vagrant/Vagrantfile',
             );
             $this->fs->remove($filesToRemove);
 
-            $fileToRename = $this->currentDir . DIRECTORY_SEPARATOR . 'vagrant' . DIRECTORY_SEPARATOR;
-            $this->fs->rename($fileToRename . 'vagrantconfig.dist.yml', $fileToRename . 'vagrantconfig.yml');
+            $fileToRename = $this->currentDir.DIRECTORY_SEPARATOR.'vagrant'.DIRECTORY_SEPARATOR;
+            $this->fs->rename($fileToRename.'vagrantconfig.dist.yml', $fileToRename.'vagrantconfig.yml');
 
             $this->output->writeln(" <info>Project successfully initialized</info>\n");
         } catch (\Exception $e) {

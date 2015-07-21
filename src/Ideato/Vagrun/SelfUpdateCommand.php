@@ -26,12 +26,12 @@ class SelfUpdateCommand extends Command
 
         $output->writeln("\n<info>Our pixies are verifing your Vagrun version...</info>");
 
-        if(!$this->checkIsLatestVersion()) {
+        if (!$this->checkIsLatestVersion()) {
             $this->getLatestVersion($input, $output);
             $already = ' ';
         }
 
-        $output->writeln("\n<info>...congrats! Your Vagrun is".$already."up to date!</info>");
+        $output->writeln("\n<info>...congrats! Your Vagrun is".$already.'up to date!</info>');
     }
 
     protected function getLatestVersion(InputInterface $input, OutputInterface $output)
@@ -55,8 +55,8 @@ class SelfUpdateCommand extends Command
             if (!$e instanceof \UnexpectedValueException && !$e instanceof \PharException) {
                 throw $e;
             }
-            $output->writeln("\n<error>What a pity: the download is corrupted (".$e->getMessage().").</error>");
-            $output->writeln("<error>Please master, give us another chance: re-run the selfupdate command to try again.</error>");
+            $output->writeln("\n<error>What a pity: the download is corrupted (".$e->getMessage().').</error>');
+            $output->writeln('<error>Please master, give us another chance: re-run the selfupdate command to try again.</error>');
         }
     }
 
