@@ -141,10 +141,4 @@ class ConfigCommand extends Command
 
         return new Question($question, $default);
     }
-
-    protected function outputResponse($label, $value, $postfix = '')
-    {
-        $output = sprintf('<fg=magenta>%s: %s%s</fg=magenta>', $label, $value, $postfix);
-        $this->output->writeln($output);
-    }
 }
