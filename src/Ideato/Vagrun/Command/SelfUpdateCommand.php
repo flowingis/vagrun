@@ -1,6 +1,6 @@
 <?php
 
-namespace Ideato\Vagrun;
+namespace Ideato\Vagrun\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

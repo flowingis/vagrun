@@ -2,7 +2,7 @@
 
 namespace Ideato\Vagrun\Test;
 
-use Ideato\Vagrun\ConfigCommand;
+use Ideato\Vagrun\Command\ConfigCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Yaml\Yaml;
@@ -15,7 +15,7 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->currentDir = sys_get_temp_dir().'/vagrun.'.uniqid(time()).'/';
         shell_exec('mkdir '.$this->currentDir);
-        shell_exec(sprintf('cp %s %s/Vagrantfile', __DIR__.'/../../fixtures/Vagrantfile.template', $this->currentDir));
+        shell_exec(sprintf('cp %s %s/Vagrantfile', __DIR__.'/../../../fixtures/Vagrantfile.template', $this->currentDir));
         shell_exec('cd '.$this->currentDir.'&& mkdir vagrant && touch vagrant/vagrantconfig.yml');
 
         $config = <<<EOD
@@ -28,7 +28,7 @@ EOD;
     }
 
     /**
-     * @covers Ideato\Vagrun\ConfigCommand
+     * @covers Ideato\Vagrun\Command\ConfigCommand
      */
     public function testItCanUpdateConfigurationFile()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ideato\Vagrun;
+namespace Ideato\Vagrun\Command;
 
 use Distill\Distill;
 use Distill\Exception\IO\Input\FileCorruptedException;
