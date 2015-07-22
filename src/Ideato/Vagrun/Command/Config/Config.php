@@ -57,4 +57,8 @@ abstract class Config extends Command
         return new Question($question, $default);
     }
 
+    abstract protected function configureFiles(InputInterface $input, OutputInterface $output);
+
+    abstract protected function configureVagrantfile(InputInterface $input, OutputInterface $output);
+
 }
