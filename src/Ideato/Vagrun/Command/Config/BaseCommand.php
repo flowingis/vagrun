@@ -96,7 +96,16 @@ class BaseCommand extends Config
     }
 
     protected function outputConfiguration(OutputInterface $output) {
-        $output->writeln("\n<info>Vagrant successfully configured!\nNow run `vagrant up` to create your Vagrant machine</info>\n");
+        $output->writeln("\n<info>Vagrant successfully configured!\nNow run `vagrant up` to create your Vagrant machine</info>\n\n");
+
+        $output->writeln('<info>Below you can find some useful settings from your configuration</info>\n');
+        $output->writeln(sprintf('<question>Vagrant name</question>: <comment>%s</comment>', $this->projectName));
+        $output->writeln(sprintf('<question>Vagrant synced folder</question>: <comment>/var/www/%s</comment>', $this->projectName));
+        $output->writeln(sprintf('<question>Apache Document Root</question>: <comment>/var/www/%s</comment>', $this->projectName));
+        $output->writeln('<question>PHP Version</question>: <comment>5.6</comment>');
+        $output->writeln(sprintf('<question>MySQL user</question>: <comment>%s</comment>', $this->projectName));
+        $output->writeln(sprintf('<question>MySQL password</question>: <comment>%s</comment>', $this->projectName));
+        $output->writeln(sprintf('<question>MySQL db</question>: <comment>%s</comment>', $this->projectName));
     }
 
 }
