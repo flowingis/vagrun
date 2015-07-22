@@ -17,9 +17,19 @@ class ConfigCommand extends Command
             ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory');
     }
 
+    /**
+     * This command is just a proxy for more specific command
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $command = $this->getApplication()->find('config:verbose');
+        $verbose = $input->getOption('verbose');
+        $commandName = $verbose ? 'config:verbose' : 'config:base';
+
+        $command = $this->getApplication()->find($commandName);
         $command->run($input, $output);
     }
 }

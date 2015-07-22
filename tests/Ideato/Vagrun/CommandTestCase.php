@@ -63,7 +63,7 @@ EOD;
      * @param \Symfony\Component\Console\Command\Command $command
      * @param $answers
      */
-    private function setUserAnswersForCommandQuestion($answers, $command)
+    protected function setUserAnswersForCommandQuestion($answers, $command)
     {
         $helper = $command->getHelper('question');
         $helper->setInputStream(
