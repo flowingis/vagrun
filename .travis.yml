@@ -12,6 +12,8 @@ before_install:
 install:
     - composer install
 
+script: phpunit --coverage-text --coverage-clover=coverage.clover
+
 after_success:
     - chmod 600 ~/.ssh/id_rsa
     - eval `ssh-agent -s`
