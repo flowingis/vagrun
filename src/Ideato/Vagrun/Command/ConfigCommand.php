@@ -14,6 +14,9 @@ class ConfigCommand extends Command
         $this
             ->setName('config')
             ->setDescription('Configure your vagrant machine')
+            ->setHelp("By default the command will ask you just the project name and it automatically will configure
+all parameters with your project name. (Eg. virtual host, db name, db pass, etc.)\n
+With --verbose option there will be prompted each single parameter and you can configure them one by one.")
             ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory');
     }
 

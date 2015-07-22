@@ -18,7 +18,7 @@ class BaseCommand extends Config
     {
         $this
             ->setName('config:base')
-            ->setDescription('Configure your vagrant machine')
+            ->setDescription('Configure your vagrant machine (basic mode)')
             ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory');
     }
 

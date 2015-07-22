@@ -14,7 +14,7 @@ class VerboseCommand extends Config
     {
         $this
             ->setName('config:verbose')
-            ->setDescription('Configure your vagrant machine')
+            ->setDescription('Configure your vagrant machine with all configuration parameters')
             ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Set path of current working directory');
     }
 
