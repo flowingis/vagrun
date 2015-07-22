@@ -35,6 +35,7 @@ $app = new Symfony\Component\Console\Application($logo, $appVersion);
 $app->add(new Ideato\Vagrun\Command\InitCommand());
 $app->add(new Ideato\Vagrun\Command\CleanUpCommand());
 $app->add(new Ideato\Vagrun\Command\ConfigCommand());
+$app->add(new Ideato\Vagrun\Command\Config\VerboseCommand());
 $app->add(new Ideato\Vagrun\Command\SelfUpdateCommand());
 
 $app->run();

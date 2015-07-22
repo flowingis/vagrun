@@ -10,7 +10,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "Ideato\\": "src/Ideato/" }
+    "psr-4": {
+      "Ideato\\": "src/Ideato/",
+      "Ideato\\Vagrun\\Test\\": "tests/Ideato/Vagrun"
+    }
   },
   "require": {
     "php": ">=5.4.0",
