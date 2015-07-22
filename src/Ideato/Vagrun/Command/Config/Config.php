@@ -4,11 +4,9 @@ namespace Ideato\Vagrun\Command\Config;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 
 abstract class Config extends Command
 {
@@ -60,5 +58,4 @@ abstract class Config extends Command
     abstract protected function configureFiles(InputInterface $input, OutputInterface $output);
 
     abstract protected function configureVagrantfile(InputInterface $input, OutputInterface $output);
-
 }

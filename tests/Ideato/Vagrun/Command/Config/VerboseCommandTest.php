@@ -6,9 +6,8 @@ use Ideato\Vagrun\Test\CommandTestCase;
 use Ideato\Vagrun\Command\Config\VerboseCommand;
 use Symfony\Component\Yaml\Yaml;
 
-class VerboseCommandCommandTest extends CommandTestCase
+class VerboseCommandTest extends CommandTestCase
 {
-
     /**
      * @expectedException \RuntimeException
      */

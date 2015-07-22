@@ -40,7 +40,7 @@ class BaseCommand extends Config
         $this->projectName = $helper->ask($input, $output, new Question($question));
 
         //remove whitespaces and transform to lowercase
-        $this->projectName = trim(strtolower(str_replace(" ", "", $this->projectName)));
+        $this->projectName = trim(strtolower(str_replace(' ', '', $this->projectName)));
 
         if (!$this->projectName) {
             throw new \RuntimeException('Project name not provided');
@@ -52,7 +52,7 @@ class BaseCommand extends Config
     protected function configureFiles(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->configPaths as $name => $path) {
-            if (file_exists($this->currentDir . DIRECTORY_SEPARATOR . $path)) {
+            if (file_exists($this->currentDir.DIRECTORY_SEPARATOR.$path)) {
                 $this->configureFile($input, $output, $name, $path);
             }
         }
@@ -71,7 +71,7 @@ class BaseCommand extends Config
             'scripts/' => 'vagrant/scripts/',
         );
 
-        $syncedFolder = '/var/www/' . $this->projectName;
+        $syncedFolder = '/var/www/'.$this->projectName;
         $replacePairs['/var/www'] = $syncedFolder;
         $replacePairs[':args => "/var/www/"'] = ':args => "'.$syncedFolder.'/vagrant"';
 
@@ -83,11 +83,11 @@ class BaseCommand extends Config
 
     protected function configureFile(InputInterface $input, OutputInterface $output, $name, $path)
     {
-        $tpl = __DIR__ . '/../../Resources/' . $path;
+        $tpl = __DIR__.'/../../Resources/'.$path;
         $tplContent = file_get_contents($tpl);
 
         $fileContent = strtr($tplContent, [
-            '{{ projectName }}' => $this->projectName
+            '{{ projectName }}' => $this->projectName,
         ]);
 
         file_put_contents($this->currentDir.DIRECTORY_SEPARATOR.$path, $fileContent);
@@ -95,7 +95,8 @@ class BaseCommand extends Config
         return $this;
     }
 
-    protected function outputConfiguration(OutputInterface $output) {
+    protected function outputConfiguration(OutputInterface $output)
+    {
         $output->writeln("\n<info>Vagrant successfully configured!\nNow run `vagrant up` to create your Vagrant machine</info>\n\n");
 
         $output->writeln('<info>Below you can find some useful settings from your configuration</info>\n');
@@ -107,5 +108,4 @@ class BaseCommand extends Config
         $output->writeln(sprintf('<question>MySQL password</question>: <comment>%s</comment>', $this->projectName));
         $output->writeln(sprintf('<question>MySQL db</question>: <comment>%s</comment>', $this->projectName));
     }
-
 }

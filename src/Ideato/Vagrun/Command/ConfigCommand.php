@@ -21,10 +21,11 @@ With --verbose option there will be prompted each single parameter and you can c
     }
 
     /**
-     * This command is just a proxy for more specific command
+     * This command is just a proxy for more specific command.
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @return mixed
      */
     protected function execute(InputInterface $input, OutputInterface $output)

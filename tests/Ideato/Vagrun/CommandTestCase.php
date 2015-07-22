@@ -27,7 +27,7 @@ EOD;
 
     /**
      * @param $command
-     * @param array $userAnswers
+     * @param array       $userAnswers
      * @param bool|string $path
      *
      * @return CommandTester
@@ -45,7 +45,7 @@ EOD;
             $command
         );
 
-        if(false === $path) {
+        if (false === $path) {
             $path = $this->currentDir;
         }
 

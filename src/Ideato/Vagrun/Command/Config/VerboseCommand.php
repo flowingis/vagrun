@@ -46,7 +46,7 @@ class VerboseCommand extends Config
         $helper = $this->getHelper('question');
 
         //set the base box name
-        if(!preg_match("/config.vm.box = \"(.*)\"/", $vagrantFileContent, $matches)) {
+        if (!preg_match('/config.vm.box = "(.*)"/', $vagrantFileContent, $matches)) {
             throw new \RuntimeException('Base box not found in Vagrantfile');
         }
         $defaultBaseBox = $matches[1];
@@ -65,7 +65,7 @@ class VerboseCommand extends Config
         $syncedFolder = $helper->ask($input, $output, new Question($question, $defaultSyncedFolder));
 
         //update Vagrantfile
-        if($defaultBaseBox != $baseBox) {
+        if ($defaultBaseBox != $baseBox) {
             $replacePairs[$defaultBaseBox] = $baseBox;
         }
 
@@ -110,5 +110,4 @@ class VerboseCommand extends Config
 
         return $this;
     }
-
 }

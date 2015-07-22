@@ -6,7 +6,7 @@ use Ideato\Vagrun\Command\Config\BaseCommand;
 use Ideato\Vagrun\Test\CommandTestCase;
 use Symfony\Component\Yaml\Yaml;
 
-class BaseCommandCommandTest extends CommandTestCase
+class BaseCommandTest extends CommandTestCase
 {
     /**
      * @expectedException \RuntimeException

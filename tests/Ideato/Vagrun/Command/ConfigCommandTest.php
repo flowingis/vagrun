@@ -8,7 +8,7 @@ use Ideato\Vagrun\Test\CommandTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ConfigCommandCommandTest extends CommandTestCase
+class ConfigCommandTest extends CommandTestCase
 {
     /**
      * @covers Ideato\Vagrun\Command\ConfigCommand
@@ -50,9 +50,8 @@ class ConfigCommandCommandTest extends CommandTestCase
         $this->assertContains('Synced folder: /var/www/vagrun', $output);
     }
 
-
     /**
-     * @param array $userAnswers
+     * @param array       $userAnswers
      * @param bool|string $path
      *
      * @return CommandTester
@@ -74,7 +73,7 @@ class ConfigCommandCommandTest extends CommandTestCase
             $command
         );
 
-        if(false === $path) {
+        if (false === $path) {
             $path = $this->currentDir;
         }
 
@@ -82,11 +81,10 @@ class ConfigCommandCommandTest extends CommandTestCase
             array(
                 'command' => $command->getName(),
                 '--path' => $path,
-                '--verbose' => $verbose
+                '--verbose' => $verbose,
             )
         );
 
         return $commandTester;
     }
-
 }
