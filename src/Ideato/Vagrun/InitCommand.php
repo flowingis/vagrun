@@ -17,6 +17,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @codeCoverageIgnore
+ */
 class InitCommand extends Command
 {
     protected $remoteFileUrl = 'https://github.com/ideatosrl/vagrant-php-template/archive/master.zip';

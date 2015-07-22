@@ -27,6 +27,9 @@ EOD;
         file_put_contents($this->currentDir.'vagrant/vagrantconfig.yml', $config);
     }
 
+    /**
+     * @covers Ideato\Vagrun\ConfigCommand
+     */
     public function testItCanUpdateConfigurationFile()
     {
         $command = new ConfigCommand();
