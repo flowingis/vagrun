@@ -22,6 +22,7 @@ after_success:
     - git config --global user.email info@ideato.it
     - git clone --depth=50 --branch=gh-pages git@github.com:ideatosrl/vagrun.git /tmp/vagrun
     - ./bin/build.sh
+    - bash <(curl -s https://codecov.io/bash)
 
 notifications:
     slack: ideato:IbCCcq5XKF1Aa23xfDNa2uOS
