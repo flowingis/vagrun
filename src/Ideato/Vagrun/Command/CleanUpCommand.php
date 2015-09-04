@@ -9,9 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * @codeCoverageIgnore
- */
 class CleanUpCommand extends Command
 {
     protected $currentDir;
