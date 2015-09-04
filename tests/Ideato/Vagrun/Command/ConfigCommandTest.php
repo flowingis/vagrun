@@ -15,7 +15,7 @@ class ConfigCommandTest extends CommandTestCase
      */
     public function testShouldRunBaseConfigCommand()
     {
-        $commandTester = $this->executeCommand(
+        $commandTester = $this->executeConfigCommand(
             false,
             ['testvagrun']
         );
@@ -29,7 +29,7 @@ class ConfigCommandTest extends CommandTestCase
      */
     public function testShouldRunVerboseConfigCommand()
     {
-        $commandTester = $this->executeCommand(
+        $commandTester = $this->executeConfigCommand(
             true,
             [
                 '1024',
@@ -56,7 +56,7 @@ class ConfigCommandTest extends CommandTestCase
      *
      * @return CommandTester
      */
-    protected function executeCommand($verbose = false, $userAnswers = [], $path = false)
+    protected function executeConfigCommand($verbose = false, $userAnswers = [], $path = false)
     {
         $configCommand = new ConfigCommand();
 
