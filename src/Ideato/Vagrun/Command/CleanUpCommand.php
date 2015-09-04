@@ -13,8 +13,15 @@ class CleanUpCommand extends Command
 {
     protected $currentDir;
 
-    /** @var Filesystem */
-    protected $fs;
+    private $fs;
+
+    public function __construct(Filesystem $fs = null) {
+        parent::__construct(null);
+        if ($fs == null) {
+            $fs = new Filesystem();
+        }
+        $this->fs = $fs;
+    }
 
     protected function configure()
     {
@@ -25,18 +32,14 @@ class CleanUpCommand extends Command
             ->addOption('force', null, InputOption::VALUE_NONE, 'Remove vagrant template without interaction');
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->fs = new Filesystem();
         $this->currentDir = getcwd().DIRECTORY_SEPARATOR;
 
         if ($input->getOption('path')) {
             $this->currentDir = $input->getOption('path').DIRECTORY_SEPARATOR;
         }
-    }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
         $forceOption = $input->getOption('force');
         if (!$forceOption) {
             if (  $this->askConfirmation($input, $output) == false ) {
