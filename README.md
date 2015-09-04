@@ -6,6 +6,7 @@ Vagrun is based on [vagrant-php-template](https://github.com/ideatosrl/vagrant-p
 Please, take a look at [documentation](http://ideatosrl.github.io/vagrun/) for further information and examples.
 
 [![Build Status](https://travis-ci.org/ideatosrl/vagrun.svg?branch=master)](https://travis-ci.org/ideatosrl/vagrun)
+[![codecov.io](http://codecov.io/github/ideatosrl/vagrun/coverage.svg?branch=master)](http://codecov.io/github/ideatosrl/vagrun?branch=master)
 
 ## Requirements
 
