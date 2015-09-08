@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class InitCommand extends Command
 {
-    protected $remoteFileUrl = 'https://github.com/ideatosrl/vagrant-php-template/archive/master.zip';
+    protected $remoteFileUrl = 'https://github.com/ideatosrl/vagrant-php-template/archive/v0.1.zip';
     protected $downloadedFilePath;
     protected $currentDir;
 
@@ -194,7 +194,7 @@ class InitCommand extends Command
         $this->fs->remove(dirname($this->downloadedFilePath));
 
         try {
-            $this->fs->rename($this->currentDir.'vagrant-php-template-master', $this->currentDir.'vagrant');
+            $this->fs->rename($this->currentDir.'vagrant-php-template-0.1', $this->currentDir.'vagrant');
             $this->fs->copy($this->currentDir.'vagrant/Vagrantfile', $this->currentDir.'Vagrantfile');
 
             $filesToRemove = array(
