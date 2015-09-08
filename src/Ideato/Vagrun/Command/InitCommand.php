@@ -8,10 +8,8 @@ use Distill\Exception\IO\Input\FileEmptyException;
 use Distill\Exception\IO\Output\TargetDirectoryNotWritableException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\Progress\Progress;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -77,36 +75,9 @@ class InitCommand extends Command
             ->addFile($this->remoteFileUrl)
             ->getPreferredFile();
 
-        /** @var ProgressBar|null $progressBar */
-        $progressBar = null;
-        $downloadCallback = function ($size, $downloaded, $client, $request, Response $response) use (&$progressBar) {
-            // Don't initialize the progress bar for redirects as the size is much smaller
-            if ($response->getStatusCode() >= 300) {
-                return;
-            }
-            if (null === $progressBar) {
-                ProgressBar::setPlaceholderFormatterDefinition('max', function (ProgressBar $bar) {
-                    return $this->formatSize($bar->getMaxSteps());
-                });
-                ProgressBar::setPlaceholderFormatterDefinition('current', function (ProgressBar $bar) {
-                    return str_pad($this->formatSize($bar->getStep()), 11, ' ', STR_PAD_LEFT);
-                });
-                $progressBar = new ProgressBar($this->output, $size);
-                $progressBar->setFormat('%current%/%max% %bar%  %percent:3s%%');
-                $progressBar->setRedrawFrequency(max(1, floor($size / 1000)));
-                $progressBar->setBarWidth(60);
-                if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
-                    $progressBar->setEmptyBarCharacter('░'); // light shade character \u2591
-                    $progressBar->setProgressCharacter('');
-                    $progressBar->setBarCharacter('▓'); // dark shade character \u2593
-                }
-                $progressBar->start();
-            }
-            $progressBar->setProgress($downloaded);
-        };
-
+        $downloadProgressBar = new DownloadProgressBar($this->output);
         $client = $this->getGuzzleClient();
-        $client->getEmitter()->attach(new Progress(null, $downloadCallback));
+        $client->getEmitter()->attach(new Progress(null, array($downloadProgressBar, 'update')));
         // store the file in a temporary hidden directory with a random name
         $this->downloadedFilePath = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'.'.uniqid(time()).DIRECTORY_SEPARATOR.'vagrun.'.pathinfo($archiveFile, PATHINFO_EXTENSION);
 
@@ -120,10 +91,7 @@ class InitCommand extends Command
         }
 
         $this->fs->dumpFile($this->downloadedFilePath, $response->getBody());
-        if (null !== $progressBar) {
-            $progressBar->finish();
-            $this->output->writeln("\n");
-        }
+        $downloadProgressBar->finish();
 
         return $this;
     }
@@ -191,24 +159,6 @@ class InitCommand extends Command
         }
 
         return new Client($options);
-    }
-
-    /**
-     * Utility method to show the number of bytes in a readable format.
-     *
-     * @param int $bytes The number of bytes to format
-     *
-     * @return string The human readable string of bytes (e.g. 4.32MB)
-     */
-    protected function formatSize($bytes)
-    {
-        $units = array('B', 'KB', 'MB', 'GB', 'TB');
-        $bytes = max($bytes, 0);
-        $pow = $bytes ? floor(log($bytes, 1024)) : 0;
-        $pow = min($pow, count($units) - 1);
-        $bytes /= pow(1024, $pow);
-
-        return number_format($bytes, 2).' '.$units[$pow];
     }
 
     /**
