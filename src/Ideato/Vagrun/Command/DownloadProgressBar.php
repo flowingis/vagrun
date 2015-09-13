@@ -22,22 +22,7 @@ class DownloadProgressBar
             return;
         }
         if (null === $this->progressBar) {
-            ProgressBar::setPlaceholderFormatterDefinition('max', function (ProgressBar $bar) {
-                return $this->formatSize($bar->getMaxSteps());
-            });
-            ProgressBar::setPlaceholderFormatterDefinition('current', function (ProgressBar $bar) {
-                return str_pad($this->formatSize($bar->getStep()), 11, ' ', STR_PAD_LEFT);
-            });
-            $this->progressBar = new ProgressBar($this->output, $size);
-            $this->progressBar->setFormat('%current%/%max% %bar%  %percent:3s%%');
-            $this->progressBar->setRedrawFrequency(max(1, floor($size / 1000)));
-            $this->progressBar->setBarWidth(60);
-            if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
-                $this->progressBar->setEmptyBarCharacter('░'); // light shade character \u2591
-                $this->progressBar->setProgressCharacter('');
-                $this->progressBar->setBarCharacter('▓'); // dark shade character \u2593
-            }
-            $this->progressBar->start();
+            $this->progressBar = $this->createProgressBar($size);
         }
         $this->progressBar->setProgress($downloaded);
     }
@@ -66,5 +51,26 @@ class DownloadProgressBar
         $bytes /= pow(1024, $pow);
 
         return number_format($bytes, 2).' '.$units[$pow];
+    }
+
+    private function createProgressBar($size)
+    {
+        ProgressBar::setPlaceholderFormatterDefinition('max', function (ProgressBar $bar) {
+            return $this->formatSize($bar->getMaxSteps());
+        });
+        ProgressBar::setPlaceholderFormatterDefinition('current', function (ProgressBar $bar) {
+            return str_pad($this->formatSize($bar->getProgress()), 11, ' ', STR_PAD_LEFT);
+        });
+        $progressBar = new ProgressBar($this->output, $size);
+        $progressBar->setFormat('%current%/%max% %bar%  %percent:3s%%');
+        $progressBar->setRedrawFrequency(max(1, floor($size / 1000)));
+        $progressBar->setBarWidth(60);
+        if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
+            $progressBar->setEmptyBarCharacter('░'); // light shade character \u2591
+            $progressBar->setProgressCharacter('');
+            $progressBar->setBarCharacter('▓'); // dark shade character \u2593
+        }
+        $progressBar->start();
+        return $progressBar;
     }
 }
