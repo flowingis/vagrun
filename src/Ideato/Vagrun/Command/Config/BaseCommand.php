@@ -73,7 +73,7 @@ class BaseCommand extends Config
 
         $syncedFolder = '/var/www/'.$this->projectName;
         $replacePairs['/var/www'] = $syncedFolder;
-        $replacePairs[':args => "/var/www/"'] = ':args => "'.$syncedFolder.'/vagrant"';
+        $replacePairs[':args => "/var/www"'] = ':args => "'.$syncedFolder.'/vagrant"';
 
         $vagrantFileContent = strtr($vagrantFileContent, $replacePairs);
         file_put_contents($vagrantFile, $vagrantFileContent);
