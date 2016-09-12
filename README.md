@@ -41,6 +41,10 @@ PHP 5.4.0 or above.
 If you are sure to delete vagrant configuration and `.vagrant` directory you could use the option 
 `--force` to erase the installation without being prompted for confirmation.
 
+## To Do
+
+- [ ] Add mysql configuration in verbose command
+
 ## Authors
 
 - Simone '[dymissy](https://github.com/dymissy)' D'Amico sd@ideato.it

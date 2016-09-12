@@ -1,5 +1,3 @@
----
-
 backend_server_name_virtual_host: "{{ host }}"
 backend_application_root_dir: "{{ synced_folder }}"
 

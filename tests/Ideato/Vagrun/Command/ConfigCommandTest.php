@@ -36,8 +36,10 @@ class ConfigCommandTest extends CommandTestCase
                 '1',
                 '10.10.10.111',
                 'test-box',
-                'hashicorp/precise64',
                 '/var/www/vagrun',
+                'vagrun.dev',
+                '{{ host }}',
+                '{{ synced_folder }}',
             ]
         );
 
@@ -46,8 +48,7 @@ class ConfigCommandTest extends CommandTestCase
         $this->assertContains('cpus: 1', $output);
         $this->assertContains('ipaddress: 10.10.10.111', $output);
         $this->assertContains('name: test-box', $output);
-        $this->assertContains('Base box: hashicorp/precise64', $output);
-        $this->assertContains('Synced folder: /var/www/vagrun', $output);
+        $this->assertContains('synced_folder: /var/www/vagrun', $output);
     }
 
     /**

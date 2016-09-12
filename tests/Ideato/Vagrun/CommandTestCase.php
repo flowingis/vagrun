@@ -21,6 +21,9 @@ ram: 2048
 cpus: 2
 ipaddress: 10.10.10.10
 name: vagrant-box-name
+synced_folder: /var/www
+hosts:
+  - vagrant-box-name.dev
 EOD;
         file_put_contents($this->currentDir.'vagrant/vagrantconfig.yml', $config);
     }

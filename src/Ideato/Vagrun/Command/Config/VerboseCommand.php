@@ -23,7 +23,6 @@ class VerboseCommand extends Config
         $this
             ->checkVagrantfileExists()
             ->configureFiles($input, $output)
-            ->configureVagrantfile($input, $output)
         ;
     }
 
@@ -38,52 +37,6 @@ class VerboseCommand extends Config
         return $this;
     }
 
-    protected function configureVagrantfile(InputInterface $input, OutputInterface $output)
-    {
-        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Vagrantfile';
-        $vagrantFileContent = file_get_contents($vagrantFile);
-
-        $helper = $this->getHelper('question');
-
-        //set the base box name
-        if (!preg_match('/config.vm.box = "(.*)"/', $vagrantFileContent, $matches)) {
-            throw new \RuntimeException('Base box not found in Vagrantfile');
-        }
-        $defaultBaseBox = $matches[1];
-        $question = sprintf('<question>Enter the base box</question> (<comment>%s</comment>): ', $defaultBaseBox);
-        $baseBox = $helper->ask($input, $output, new Question($question, $defaultBaseBox));
-
-        //set the path of vagrantconfig.yml according to Vagrantfile location
-        $replacePairs = array(
-            'vagrantconfig.yml' => 'vagrant/vagrantconfig.yml',
-            'scripts/' => 'vagrant/scripts/',
-        );
-
-        //ask for synced folder path
-        $defaultSyncedFolder = '/var/www';
-        $question = sprintf('<question>Enter the synced folder path</question> (<comment>%s</comment>): ', $defaultSyncedFolder);
-        $syncedFolder = $helper->ask($input, $output, new Question($question, $defaultSyncedFolder));
-
-        //update Vagrantfile
-        if ($defaultBaseBox != $baseBox) {
-            $replacePairs[$defaultBaseBox] = $baseBox;
-        }
-
-        if ($syncedFolder != $defaultSyncedFolder) {
-            $replacePairs[$defaultSyncedFolder] = $syncedFolder;
-            $replacePairs[':args => "'.$defaultSyncedFolder.'"'] = ':args => "'.$syncedFolder.'/vagrant"';
-        }
-
-        $vagrantFileContent = strtr($vagrantFileContent, $replacePairs);
-        file_put_contents($vagrantFile, $vagrantFileContent);
-
-        $output->writeln("\n<info>Base box: $baseBox</info>");
-        $output->writeln("\n<info>Synced folder: $syncedFolder</info>");
-        $output->writeln("\n<info>Vagrantfile sucessfully updated</info>");
-
-        return $this;
-    }
-
     protected function configureFile(InputInterface $input, OutputInterface $output, $name, $path)
     {
         $yaml = Yaml::parse(file_get_contents($this->currentDir.DIRECTORY_SEPARATOR.$path));
@@ -94,11 +47,20 @@ class VerboseCommand extends Config
 
         $response = array();
         foreach ($yaml as $key => $value) {
-            $question = $this->createQuestion($key, $yaml[$key]);
+            $default = $yaml[$key];
+            if (is_array($default)) {
+                $default = array_shift($default);
+            }
+
+            $question = $this->createQuestion($key, $default);
             $response[$key] = $helper->ask($input, $output, $question);
 
             if (is_int($yaml[$key])) {
                 $response[$key] = (int) $response[$key];
+            }
+
+            if (is_array($yaml[$key])) {
+                $response[$key] = [ $response[$key] ];
             }
         }
 

@@ -34,8 +34,10 @@ class VerboseCommandTest extends CommandTestCase
                 '1',
                 '10.10.10.111',
                 'test-box',
-                'hashicorp/precise64',
                 '/var/www/vagrun',
+                'vagrun.dev',
+                '{{ host }}',
+                '{{ synced_folder }}',
             ]
         );
 
@@ -44,8 +46,7 @@ class VerboseCommandTest extends CommandTestCase
         $this->assertContains('cpus: 1', $output);
         $this->assertContains('ipaddress: 10.10.10.111', $output);
         $this->assertContains('name: test-box', $output);
-        $this->assertContains('Base box: hashicorp/precise64', $output);
-        $this->assertContains('Synced folder: /var/www/vagrun', $output);
+        $this->assertContains('synced_folder: /var/www/vagrun', $output);
 
         $updatedConfigFile = Yaml::parse(file_get_contents($this->currentDir.'vagrant/vagrantconfig.yml'));
         $expected = array(
@@ -53,12 +54,9 @@ class VerboseCommandTest extends CommandTestCase
             'cpus' => 1,
             'ipaddress' => '10.10.10.111',
             'name' => 'test-box',
+            'synced_folder' => '/var/www/vagrun',
+            'hosts' => ['vagrun.dev']
         );
         $this->assertEquals($expected, $updatedConfigFile);
-
-        $vagrantFile = file_get_contents($this->currentDir.'Vagrantfile');
-        $this->assertEquals(2, substr_count($vagrantFile, 'vagrant/vagrantconfig.yml'));
-        $this->assertEquals(3, substr_count($vagrantFile, '/var/www/vagrun'));
-        $this->assertContains('config.vm.box = "hashicorp/precise64"', $vagrantFile);
     }
 }
