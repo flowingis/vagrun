@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class InitCommand extends Command
 {
-    protected $remoteFileUrl = 'https://github.com/ideatosrl/vagrant-php-template/archive/v0.1.zip';
+    protected $remoteFileUrl = 'https://github.com/ideatosrl/vagrant-php-template/archive/centos.zip';
     protected $downloadedFilePath;
     protected $currentDir;
 
@@ -194,18 +194,16 @@ class InitCommand extends Command
         $this->fs->remove(dirname($this->downloadedFilePath));
 
         try {
-            $this->fs->rename($this->currentDir.'vagrant-php-template-0.1', $this->currentDir.'vagrant');
-            $this->fs->copy($this->currentDir.'vagrant/Vagrantfile', $this->currentDir.'Vagrantfile');
-
-            $filesToRemove = array(
-                $this->currentDir.'vagrant/.gitignore',
-                $this->currentDir.'vagrant/README.md',
-                $this->currentDir.'vagrant/Vagrantfile',
-            );
-            $this->fs->remove($filesToRemove);
+            $this->fs->copy($this->currentDir.'vagrant-php-template-centos/Vagrantfile', $this->currentDir.'Vagrantfile');
+            $this->fs->mirror($this->currentDir.'vagrant-php-template-centos/vagrant', $this->currentDir.'/vagrant');
 
             $fileToRename = $this->currentDir.DIRECTORY_SEPARATOR.'vagrant'.DIRECTORY_SEPARATOR;
             $this->fs->rename($fileToRename.'vagrantconfig.dist.yml', $fileToRename.'vagrantconfig.yml');
+
+            $filesToRemove = array(
+                $this->currentDir.'vagrant-php-template-centos',
+            );
+            $this->fs->remove($filesToRemove);
 
             $this->output->writeln(" <info>Project successfully initialized</info>\n");
         } catch (\Exception $e) {
