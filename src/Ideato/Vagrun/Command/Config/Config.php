@@ -21,8 +21,7 @@ abstract class Config extends Command
     /** @var Array */
     protected $configPaths = array(
         'vagrantconfig' => 'vagrant/vagrantconfig.yml',
-        'webserver' => 'vagrant/provisioning/ideato.webserver/vars/main.yml',
-        'database' => 'vagrant/provisioning/ideato.database.mysql/vars/main.yml',
+        'vars' => 'vagrant/provisioning/host_vars/development.yml'
     );
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -56,6 +55,4 @@ abstract class Config extends Command
     }
 
     abstract protected function configureFiles(InputInterface $input, OutputInterface $output);
-
-    abstract protected function configureVagrantfile(InputInterface $input, OutputInterface $output);
 }

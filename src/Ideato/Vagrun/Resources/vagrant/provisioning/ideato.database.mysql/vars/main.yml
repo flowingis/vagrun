@@ -1,3 +1,0 @@
-ideato_mysql_user: {{ projectName }}
-ideato_mysql_password: {{ projectName }}
-ideato_mysql_db: {{ projectName }}

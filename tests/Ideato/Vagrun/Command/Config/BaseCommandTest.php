@@ -56,12 +56,9 @@ class BaseCommandTest extends CommandTestCase
             'cpus' => 2,
             'ipaddress' => '10.10.10.10',
             'name' => 'testvagrun',
+            'synced_folder' => '/var/www/testvagrun',
+            'hosts' => ['testvagrun.dev']
         );
         $this->assertEquals($expected, $updatedConfigFile);
-
-        $vagrantFile = file_get_contents($this->currentDir.'Vagrantfile');
-        $this->assertEquals(2, substr_count($vagrantFile, 'vagrant/vagrantconfig.yml'));
-        $this->assertEquals(3, substr_count($vagrantFile, '/var/www/testvagrun'));
-        $this->assertContains('config.vm.box = "ubuntu/trusty64"', $vagrantFile);
     }
 }

@@ -28,7 +28,6 @@ class BaseCommand extends Config
             ->checkVagrantfileExists()
             ->getProjectName($input, $output)
             ->configureFiles($input, $output)
-            ->configureVagrantfile($input, $output)
             ->outputConfiguration($output);
     }
 
@@ -60,30 +59,9 @@ class BaseCommand extends Config
         return $this;
     }
 
-    protected function configureVagrantfile(InputInterface $input, OutputInterface $output)
-    {
-        $vagrantFile = rtrim($this->currentDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'Vagrantfile';
-        $vagrantFileContent = file_get_contents($vagrantFile);
-
-        //set the path of vagrantconfig.yml according to Vagrantfile location
-        $replacePairs = array(
-            'vagrantconfig.yml' => 'vagrant/vagrantconfig.yml',
-            'scripts/' => 'vagrant/scripts/',
-        );
-
-        $syncedFolder = '/var/www/'.$this->projectName;
-        $replacePairs['/var/www'] = $syncedFolder;
-        $replacePairs[':args => "/var/www"'] = ':args => "'.$syncedFolder.'/vagrant"';
-
-        $vagrantFileContent = strtr($vagrantFileContent, $replacePairs);
-        file_put_contents($vagrantFile, $vagrantFileContent);
-
-        return $this;
-    }
-
     protected function configureFile(InputInterface $input, OutputInterface $output, $name, $path)
     {
-        $tpl = __DIR__.'/../../Resources/'.$path;
+        $tpl = __DIR__.'/../../Resources/templates/'.basename($path);
         $tplContent = file_get_contents($tpl);
 
         $fileContent = strtr($tplContent, [
@@ -102,8 +80,8 @@ class BaseCommand extends Config
         $output->writeln('<info>Below you can find some useful settings from your configuration</info>\n');
         $output->writeln(sprintf('<question>Vagrant name</question>: <comment>%s</comment>', $this->projectName));
         $output->writeln(sprintf('<question>Vagrant synced folder</question>: <comment>/var/www/%s</comment>', $this->projectName));
-        $output->writeln(sprintf('<question>Apache Document Root</question>: <comment>/var/www/%s</comment>', $this->projectName));
-        $output->writeln('<question>PHP Version</question>: <comment>5.6</comment>');
+        $output->writeln(sprintf('<question>nginx Document Root</question>: <comment>/var/www/%s</comment>', $this->projectName));
+        $output->writeln('<question>PHP Version</question>: <comment>7</comment>');
         $output->writeln(sprintf('<question>MySQL user</question>: <comment>%s</comment>', $this->projectName));
         $output->writeln(sprintf('<question>MySQL password</question>: <comment>%s</comment>', $this->projectName));
         $output->writeln(sprintf('<question>MySQL db</question>: <comment>%s</comment>', $this->projectName));

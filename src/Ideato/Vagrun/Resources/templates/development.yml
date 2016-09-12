@@ -1,0 +1,9 @@
+---
+
+backend_server_name_virtual_host: "{{ host }}"
+backend_application_root_dir: "{{ synced_folder }}"
+
+
+mysql_user: {{ projectName }}
+mysql_password: {{ projectName }}
+mysql_db: {{ projectName }}
